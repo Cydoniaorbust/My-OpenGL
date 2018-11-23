@@ -1,0 +1,4 @@
+#version 400 core
+out vec4 _color;
+uniform vec4 color;
+void main() { _color = color; }
