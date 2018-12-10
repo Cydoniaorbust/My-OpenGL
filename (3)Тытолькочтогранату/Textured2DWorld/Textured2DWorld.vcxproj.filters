@@ -37,11 +37,5 @@
     <None Include="assimp-vc140-mt.dll">
       <Filter>Файлы ресурсов</Filter>
     </None>
-    <None Include="D3DCompiler_42.dll">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="D3DX9_42.dll">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
   </ItemGroup>
 </Project>

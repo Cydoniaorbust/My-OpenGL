@@ -1,11 +1,7 @@
 #pragma once
 
 #include "Study/Shader.h"
-
-#include <glad/glad.h>
-#include <assimp/Importer.hpp>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "Texture.h"
 
 #include <string>
 #include <fstream>
@@ -14,6 +10,7 @@
 #include <vector>
 
 using namespace glm;
+using std::string;
 using std::vector;
 
 struct Vertex {
@@ -22,11 +19,6 @@ struct Vertex {
 	vec2 TexCoords;
 	vec3 Tangent;
 	vec3 Bitangent;
-};
-struct Texture {
-	GLuint id;
-	string type;
-	aiString path;
 };
 
 class Mesh {
