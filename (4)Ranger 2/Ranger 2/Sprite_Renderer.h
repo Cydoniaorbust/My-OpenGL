@@ -1,9 +1,7 @@
 #pragma once
 
-#include "Study/Texture.h"
-#include "Study/Shader.h"
+#include "Source.h"
 
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
