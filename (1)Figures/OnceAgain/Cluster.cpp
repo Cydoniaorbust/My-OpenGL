@@ -21,7 +21,7 @@ void Cluster::Input(bool txt) {
 	}
 	else
 		if (Once) {
-			size_t i, j;
+			int i, j;
 			try {
 				cout << "i/j: \n";
 				cin >> i >> j;
@@ -76,7 +76,7 @@ void Cluster::Output(bool txt) {
 };
 void Cluster::Random() {
 	if (Once) {
-		size_t i, j;
+		int i, j;
 		try {
 			cout << "i/j: \n";
 			cin >> i >> j;
@@ -122,7 +122,7 @@ void Cluster::Shell() {
 	default: break;
 	}
 };
-void Cluster::Search(size_t OE = 0) {
+void Cluster::Search(int OE = 0) {
 	try {
 		cout << "1. Odd\n2. Even\n";
 		cin >> OE;
