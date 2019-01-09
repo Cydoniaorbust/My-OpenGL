@@ -16,7 +16,7 @@ class Triangle {
 public:
 	inline float P() { return Len2(0, 1) + Len2(0, 2) + Len2(1, 2); };
 	inline float S() { float hP = P() / 2.0f; return sqrt(hP*(hP - Len2(0, 1))*(hP - Len2(0, 2))*(hP - Len2(1, 2))); };
-	inline float D() { return sqrt(
+	inline float D() { return (float)sqrt(
 			SQR((Fig[0] + Fig[3] + Fig[6]) / 3. + Fig[9]) +
 			SQR((Fig[1] + Fig[4] + Fig[7]) / 3. + Fig[10]) +
 			SQR((Fig[2] + Fig[5] + Fig[8]) / 3. + Fig[11]));
