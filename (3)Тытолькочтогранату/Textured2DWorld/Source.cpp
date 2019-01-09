@@ -1,11 +1,10 @@
-#include "Study/GLEnvironment.h"
+#include "Source.h"
 #include "Model.h"
-#include "Study/Camera.h"
 
 #include <iomanip>
 #include <time.h>
 
-GLEnvironment Env;
+GLEnvironment Env(1440, 900);
 Camera Cam(vec3(0, 3, 0));
 vec3 LightAmb(1), LightDir(-0.2f, -1.0f, -0.3f), LightDifDir(1), LightDifSpot(1);
 
@@ -27,10 +26,10 @@ void processInput(GLFWwindow *window) {
 	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) if (LightDifSpot.x > 0) LightDifSpot -= 0.05;
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) exit(0);
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) Cam.ProcessKeyboard(FORWARD, Env.delta);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) Cam.ProcessKeyboard(BACKWARD, Env.delta);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) Cam.ProcessKeyboard(LEFT, Env.delta);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) Cam.ProcessKeyboard(RIGHT, Env.delta);
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) Cam.ProcessKeyboard(FORWARD, Env.GetDelta());
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) Cam.ProcessKeyboard(BACKWARD, Env.GetDelta());
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) Cam.ProcessKeyboard(LEFT, Env.GetDelta());
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) Cam.ProcessKeyboard(RIGHT, Env.GetDelta());
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
@@ -94,10 +93,9 @@ void DrawScene(Shader Shader, mat4 view, mat4 projection, Model Model) {
 
 void OpenGL() {
 	try {
-		Env.Init_GLFW(4, 0);
-		Env.Init_Win("OpenGL");
+		Env.InitWin("OpenGL");
 		Env.Callback_Set(callback_framebuffer_size, nullptr, callback_mouse, callback_scroll);
-		Env.Init_GLAD();
+		Env.InitGLAD();
 		Env.ApplyTests();
 	//Preparation begins
 		Shader 
@@ -107,14 +105,14 @@ void OpenGL() {
 		GLuint nbFrames = 0;
 		GLfloat LastTime = (GLfloat)glfwGetTime();
 	//Main loop
-		while (!glfwWindowShouldClose(Env.Win)) {
+		while (!glfwWindowShouldClose(Env.GetWin())) {
 		//Start
-			processInput(Env.Win);
+			processInput(Env.GetWin());
 		//Scene and Camera
 			Env.UpdateFrames();
 
 			mat4 view = Cam.GetViewMatrix();
-			mat4 projection = perspective(radians(Cam.Zoom), (GLfloat)Env.w / (GLfloat)Env.h, 0.1f, 1000.0f);
+			mat4 projection = perspective(radians(Cam.Zoom), (GLfloat)Env.GetWidth() / (GLfloat)Env.GetHeight(), 0.1f, 1000.0f);
 			glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//Drawing			
@@ -123,13 +121,12 @@ void OpenGL() {
 		//FPS counter
 			nbFrames++;
 			if (GLfloat(glfwGetTime()) - LastTime >= 1.0) {
-				std::cout << nbFrames << " fps\n";// printf("%f ms/frame\n", 1000.0/double(nbFrames));
-				//std::cout << std::fixed << std::setprecision(0) << "["<< camera.Position.x << "]:["<< camera.Position.y << "]:["<< camera.Position.z << "]" << std::endl;
+				std::cout << nbFrames << " fps\n";
 				nbFrames = 0;
 				LastTime += 1.0;
 			}
 		//Finish
-			glfwSwapBuffers(Env.Win);
+			glfwSwapBuffers(Env.GetWin());
 			glfwPollEvents();
 		}
 	//Cleaning
