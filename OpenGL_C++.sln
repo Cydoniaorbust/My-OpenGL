@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OnceAgain", "(1)Figures\OnceAgain\OnceAgain.vcxproj", "{E739D108-7E32-49B5-83A9-AE2E250910AA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Проект 1", "(1)Figures\OnceAgain\OnceAgain.vcxproj", "{E739D108-7E32-49B5-83A9-AE2E250910AA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Figures again", "(2)Figures again\Figures again\Figures again.vcxproj", "{91D2A5DE-7BD8-4A06-B115-A98E23E7E516}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Проект 2", "(2)Figures again\Figures again\Figures again.vcxproj", "{91D2A5DE-7BD8-4A06-B115-A98E23E7E516}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3D Visualizer", "(3)Тытолькочтогранату\Textured2DWorld\Textured2DWorld.vcxproj", "{94A9F603-B24B-4955-AEA0-41A71BFE2155}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Проект 3", "(3)Тытолькочтогранату\Textured2DWorld\Textured2DWorld.vcxproj", "{94A9F603-B24B-4955-AEA0-41A71BFE2155}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GL_trifles", "(0)GL_trifles\GL_trifles\GL_trifles.vcxproj", "{214017E9-062B-4E79-ACE6-214E20DF4635}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ranger 2", "(4)Ranger 2\Ranger 2\Ranger 2.vcxproj", "{89C4A425-188E-4C6A-A764-F5DF7D7D8AA4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Проект 4", "(4)Ranger 2\Ranger 2\Ranger 2.vcxproj", "{89C4A425-188E-4C6A-A764-F5DF7D7D8AA4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Avenger", "(5)Avenger\Avenger.vcxproj", "{ECCE9017-3076-442B-B76F-5690B1A47AD9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Проект 5", "(5)Avenger\Avenger.vcxproj", "{ECCE9017-3076-442B-B76F-5690B1A47AD9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Проект 6", "(6)Game.All\Game\Game.vcxproj", "{B461F1D1-881A-4387-9FA9-1DC238963E77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,14 @@ Global
 		{ECCE9017-3076-442B-B76F-5690B1A47AD9}.Release|x64.Build.0 = Release|x64
 		{ECCE9017-3076-442B-B76F-5690B1A47AD9}.Release|x86.ActiveCfg = Release|Win32
 		{ECCE9017-3076-442B-B76F-5690B1A47AD9}.Release|x86.Build.0 = Release|Win32
+		{B461F1D1-881A-4387-9FA9-1DC238963E77}.Debug|x64.ActiveCfg = Debug|x64
+		{B461F1D1-881A-4387-9FA9-1DC238963E77}.Debug|x64.Build.0 = Debug|x64
+		{B461F1D1-881A-4387-9FA9-1DC238963E77}.Debug|x86.ActiveCfg = Debug|Win32
+		{B461F1D1-881A-4387-9FA9-1DC238963E77}.Debug|x86.Build.0 = Debug|Win32
+		{B461F1D1-881A-4387-9FA9-1DC238963E77}.Release|x64.ActiveCfg = Release|x64
+		{B461F1D1-881A-4387-9FA9-1DC238963E77}.Release|x64.Build.0 = Release|x64
+		{B461F1D1-881A-4387-9FA9-1DC238963E77}.Release|x86.ActiveCfg = Release|Win32
+		{B461F1D1-881A-4387-9FA9-1DC238963E77}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
