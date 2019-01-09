@@ -8,20 +8,20 @@
 
 template <class figure>
 class TFigureMatrix {
-	size_t NColumn = 8, NRow = 8;
+	int NColumn = 8, NRow = 8;
 	vector<vector<figure>> array;
 	ifstream fin;
 	ofstream fout;
 public:
 	TFigureMatrix() {
 		array.resize(NColumn);
-		for (size_t i = 0; i < NColumn; i++)
+		for (int i = 0; i < NColumn; i++)
 			array[i].resize(NRow);
 	};
 
-	size_t GetNRow() { return NRow; };
-	size_t GetNColumn() { return NColumn; };
-	float* GetFigArr(size_t i, size_t j) { return array[i][j].GetFig(); };
+	int GetNRow() { return NRow; };
+	int GetNColumn() { return NColumn; };
+	float* GetFigArr(int i, int j) { return array[i][j].GetFig(); };
 
 	void Num() {
 		class SizeMatters {};
@@ -29,7 +29,7 @@ public:
 			cin >> NColumn >> NRow;
 			if (NColumn > NRow) throw SizeMatters();
 			array.resize(NColumn);
-			for (size_t i = 0; i < NColumn; i++)
+			for (int i = 0; i < NColumn; i++)
 				array[i].resize(NRow);
 		}
 		catch (SizeMatters) {
@@ -44,7 +44,7 @@ public:
 		}
 	};
 
-	void ReadConOnce(size_t i, size_t j) {
+	void ReadConOnce(int i, int j) {
 		try {
 			cin >> array[i][j];
 			if (array[i][j].S() < MIN_val) throw i;
@@ -60,7 +60,7 @@ public:
 			ReadConOnce(i, j);
 		}
 	};
-	void SetRandVal(size_t i, size_t j) {
+	void SetRandVal(int i, int j) {
 		try {
 			array[i][j].Rnd();
 			if (array[i][j].S() < MIN_val) throw i, j;
@@ -70,9 +70,9 @@ public:
 	void ReadCon() {
 		Num();
 		array.resize(NColumn);
-		for (size_t i = 0; i < NColumn; i++) {
+		for (int i = 0; i < NColumn; i++) {
 			array[i].resize(NRow);
-			for (size_t j = 0; j < NRow; j++)
+			for (int j = 0; j < NRow; j++)
 				ReadConOnce(i, j);
 		}
 	};
@@ -85,9 +85,9 @@ public:
 			fin >> NColumn >> NRow;
 			if (NColumn > NRow) throw Fail::SizeMatters();
 			array.resize(NColumn);
-			for (size_t i = 0; i < NColumn; i++) {
+			for (int i = 0; i < NColumn; i++) {
 				array[i].resize(NRow);
-				for (size_t j = 0; j < NRow; j++)
+				for (int j = 0; j < NRow; j++)
 					fin >> array[i][j];
 			}
 		}
@@ -110,8 +110,8 @@ public:
 		fin.close();
 	};
 	void Show() {
-		for (size_t i = 0; i < NColumn; i++) {
-			for (size_t j = 0; j < NRow; j++)
+		for (int i = 0; i < NColumn; i++) {
+			for (int j = 0; j < NRow; j++)
 				cout << array[i][j];
 			cout << endl;
 		}
@@ -120,27 +120,27 @@ public:
 	void Write(const char output[]) {
 		fout.open(output);
 		fout << "d " << NColumn << " " << NRow;
-		for (size_t i = 0; i < NColumn; i++)
-			for (size_t j = 0; j < NRow; j++)
+		for (int i = 0; i < NColumn; i++)
+			for (int j = 0; j < NRow; j++)
 				fout << array[i][j];
 		fout.close();
 	};
 	void GenRandVals() {
 		Num();
-		for (size_t i = 0; i < NColumn; i++)
-			for (size_t j = 0; j < NRow; j++)
+		for (int i = 0; i < NColumn; i++)
+			for (int j = 0; j < NRow; j++)
 				SetRandVal(i, j);
 	};
 
-	double AverageP(size_t i) {
+	double AverageP(int i) {
 		double AP = 0.0;
-		for (size_t j = 0; j < NRow; j++)
+		for (int j = 0; j < NRow; j++)
 			AP += array[i][j].P();
 		return AP / NRow;
 	};
-	double AverageS(size_t i) {
+	double AverageS(int i) {
 		double AS = 0.0;
-		for (size_t j = 0; j < NRow; j++)
+		for (int j = 0; j < NRow; j++)
 			AS += array[i][j].S();
 		return AS / NRow;
 	};
@@ -161,15 +161,15 @@ public:
 	void Search(int k) {
 		double l = 0.0;
 		int h = 0;
-		for (size_t i = 0; i < NColumn; i++)
+		for (int i = 0; i < NColumn; i++)
 			if ((i + k) % 2 == 0) {
 				l += AverageP(i);
 				h++;
 			}
 		l = l / h;
 		cout << l << "\n";
-		for (size_t i = 0; i < NColumn; i++)
-			for (size_t j = 0; j < NRow; j++)
+		for (int i = 0; i < NColumn; i++)
+			for (int j = 0; j < NRow; j++)
 				if (array[i][j].P() > l)
 					cout << "[" << i << ";" << j << "] : " << array[i][j] << endl << array[i][j].P() << endl;
 	};
@@ -190,7 +190,7 @@ public:
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			FiveMostDistant();
 		}
-		size_t N = NColumn * NRow;
+		int N = NColumn * NRow;
 		vector<vector<float>> arr;
 		arr.resize(N);
 		for (int i = 0, l = 0; i < NColumn; i++)
@@ -198,8 +198,8 @@ public:
 				arr[l].resize(4);
 				arr[l][0] = array[i][j].D();
 				arr[l][1] = array[i][j].P();
-				arr[l][2] = i;
-				arr[l][3] = j;
+				arr[l][2] = (float)i;
+				arr[l][3] = (float)j;
 			}
 		
 		for (int gap = N / 2; gap > 0; gap /= 2)
