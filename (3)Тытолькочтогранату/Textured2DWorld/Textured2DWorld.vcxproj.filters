@@ -18,9 +18,6 @@
     <ClCompile Include="Source.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="glad.c">
-      <Filter>Файлы ресурсов</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h">
@@ -29,7 +26,7 @@
     <ClInclude Include="Model.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image.h">
+    <ClInclude Include="..\..\..\..\Include\GL\stb_image.h">
       <Filter>Файлы ресурсов</Filter>
     </ClInclude>
   </ItemGroup>
