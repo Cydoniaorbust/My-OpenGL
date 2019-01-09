@@ -16,6 +16,6 @@ public:
 	void Output(bool);
 	void Random();
 	void Shell();
-	void Search(size_t);
+	void Search(int);
 	void Distant();
 };
