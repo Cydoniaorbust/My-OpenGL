@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -72,23 +72,33 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Google Диск\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Google Диск\Include\GL;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Google Диск\Libs;$(LibraryPath)</LibraryPath>
+    <TargetName>$(Configuration)_$(Platform)</TargetName>
+    <OutDir>C:\Google Диск\Libs\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Google Диск\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Google Диск\Include\GL;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Google Диск\Libs;$(LibraryPath)</LibraryPath>
+    <TargetName>$(Configuration)_$(Platform)</TargetName>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>C:\Google Диск\Libs\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Google Диск\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Google Диск\Include\GL;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Google Диск\Libs;$(LibraryPath)</LibraryPath>
+    <TargetName>$(Configuration)_$(Platform)</TargetName>
+    <OutDir>C:\Google Диск\Libs\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Google Диск\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Google Диск\Include\GL;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Google Диск\Libs;$(LibraryPath)</LibraryPath>
+    <TargetName>$(Configuration)_$(Platform)</TargetName>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>C:\Google Диск\Libs\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -155,6 +165,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Include\GL\glad\Release\glad.c" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GLEnvironment.cpp" />
     <ClCompile Include="Shader.cpp" />
