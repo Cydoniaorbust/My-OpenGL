@@ -5,7 +5,7 @@
 template <class Model>
 class TFigureMatrix
 {
-	size_t N = 10;
+	int N = 10;
 	vector<Model> array;
 	ifstream fin;
 	ofstream fout;
@@ -14,8 +14,8 @@ public:
 	vector<GLuint> Indices;
 
 	TFigureMatrix() { array.resize(N); };
-	size_t GetN() { return N; };
-	GLfloat* GetFigArr(size_t i) { return array[i].GetFig(); };
+	int GetN() { return N; };
+	GLfloat* GetFigArr(int i) { return array[i].GetFig(); };
 	
 	void Num() {
 		try {
@@ -30,7 +30,7 @@ public:
 		}
 	};
 
-	void SetRandVal(size_t i) { do array[i].Rnd(); while (array[i].S() < MIN_val); };
+	void SetRandVal(int i) { do array[i].Rnd(); while (array[i].S() < MIN_val); };
 	void ReadTxt() {
 		fin.open("Res/Mesh.txt");
 		char delim;
@@ -39,7 +39,7 @@ public:
 			if (delim != 'd') throw Fail::FailFileRead();
 			fin >> N;
 			array.resize(N);
-			for (size_t i = 0; i < N; i++) fin >> array[i];
+			for (int i = 0; i < N; i++) fin >> array[i];
 		}
 		catch (...) {
 			cerr << "Failed to read from file!\n";
@@ -51,12 +51,12 @@ public:
 		fin.close();
 	};
 	void Show() {
-		for (size_t i = 0; i < N; i++) cout << array[i];
+		for (int i = 0; i < N; i++) cout << array[i];
 		cout << endl;
 	};
 	void GenRandVals() {
 		Num();
-		for (size_t i = 0; i < N; i++) SetRandVal(i);
+		for (int i = 0; i < N; i++) SetRandVal(i);
 	};
 
 	void ImportObjFile() {
