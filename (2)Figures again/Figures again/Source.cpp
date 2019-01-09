@@ -1,11 +1,9 @@
-#include "Study/GLEnvironment.h"
-#include "Study/Shader.h"
-#include "Study/Camera.h"
+#include "Source.h"
 #include "TFigureMatrix.h"
 
 using namespace glm;
 
-GLEnvironment Env;
+GLEnvironment Env(800, 600);
 Camera Cam(vec3(0, 3, 0));
 TFigureMatrix <MyMesh> Mesh;
 GLfloat RRL = 0, GRL = 0, BRL = 0;
@@ -22,10 +20,10 @@ void callback_scroll(GLFWwindow* Win, double xoffset, double yoffset) {
 }
 void processInput(GLFWwindow *Win) {
 	if (glfwGetKey(Win, GLFW_KEY_ESCAPE) == GLFW_PRESS) exit(0);
-	if (glfwGetKey(Win, GLFW_KEY_W) == GLFW_PRESS) Cam.ProcessKeyboard(FORWARD, Env.delta);
-	if (glfwGetKey(Win, GLFW_KEY_S) == GLFW_PRESS) Cam.ProcessKeyboard(BACKWARD, Env.delta);
-	if (glfwGetKey(Win, GLFW_KEY_A) == GLFW_PRESS) Cam.ProcessKeyboard(LEFT, Env.delta);
-	if (glfwGetKey(Win, GLFW_KEY_D) == GLFW_PRESS) Cam.ProcessKeyboard(RIGHT, Env.delta);
+	if (glfwGetKey(Win, GLFW_KEY_W) == GLFW_PRESS) Cam.ProcessKeyboard(FORWARD, Env.GetDelta());
+	if (glfwGetKey(Win, GLFW_KEY_S) == GLFW_PRESS) Cam.ProcessKeyboard(BACKWARD, Env.GetDelta());
+	if (glfwGetKey(Win, GLFW_KEY_A) == GLFW_PRESS) Cam.ProcessKeyboard(LEFT, Env.GetDelta());
+	if (glfwGetKey(Win, GLFW_KEY_D) == GLFW_PRESS) Cam.ProcessKeyboard(RIGHT, Env.GetDelta());
 	if (glfwGetKey(Win, GLFW_KEY_Q) == GLFW_PRESS) Mesh.ReadTxt();
 	if (glfwGetKey(Win, GLFW_KEY_E) == GLFW_PRESS) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	if (glfwGetKey(Win, GLFW_KEY_R) == GLFW_PRESS) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -46,7 +44,7 @@ void processInput(GLFWwindow *Win) {
 }
 
 void Draw() {
-	size_t DrawMenuChoice = 0, l = 1;
+	int DrawMenuChoice = 0, l = 1;
 	try {
 		while (l) {
 			cout
@@ -65,7 +63,7 @@ void Draw() {
 			}
 		}
 	}
-	catch (size_t) {
+	catch (int) {
 		cerr << "Choice fail!\n";
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -256,10 +254,9 @@ void DrawHand(Shader Shader, mat4 view, mat4 projection) {
 
 void OpenGL() {
 	try {
-		Env.Init_GLFW(4, 0);
-		Env.Init_Win("OpenGL");
+		Env.InitWin("OpenGL");
 		Env.Callback_Set(callback_framebuffer_size, nullptr, callback_mouse, callback_scroll);
-		Env.Init_GLAD();
+		Env.InitGLAD();
 		Env.ApplyTests();
 
 		Mesh.ImportObjFile();
@@ -282,13 +279,13 @@ void OpenGL() {
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vec3), (GLvoid*)0);
 		glEnableVertexAttribArray(0);
 
-		while (!glfwWindowShouldClose(Env.Win)) {
+		while (!glfwWindowShouldClose(Env.GetWin())) {
 			Env.UpdateFrames();
 
-			processInput(Env.Win);
+			processInput(Env.GetWin());
 
 			mat4 view = Cam.GetViewMatrix();
-			mat4 projection = perspective(45.0f, (GLfloat)Env.w / (GLfloat)Env.h, 0.1f, 100.0f);
+			mat4 projection = perspective(45.0f, (GLfloat)Env.GetWidth() / (GLfloat)Env.GetHeight(), 0.1f, 100.0f);
 			glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			//Drawing
@@ -314,7 +311,7 @@ void OpenGL() {
 				LastTime += 1.0;
 			}
 			//Finish
-			glfwSwapBuffers(Env.Win);
+			glfwSwapBuffers(Env.GetWin());
 			glfwPollEvents();
 		}
 		//Cleaning
