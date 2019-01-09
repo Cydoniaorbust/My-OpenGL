@@ -26,9 +26,6 @@
     <ClInclude Include="Model.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Include\GL\stb_image.h">
-      <Filter>Файлы ресурсов</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc140-mt.dll">

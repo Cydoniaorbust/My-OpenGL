@@ -1,8 +1,5 @@
 #pragma once
 
-#include "Study/Shader.h"
-
-#include <glad/glad.h>
 #include <assimp/Importer.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
