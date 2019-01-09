@@ -1,11 +1,9 @@
-#include "Study/GLEnvironment.h"
-#include "Study/Shader.h"
-#include "Study/Camera.h"
+#include "Source.h"
 #include "Cluster.h"
 
 using namespace glm;
 
-GLEnvironment Env;
+GLEnvironment Env(800, 600);
 Camera Cam(vec3(0, 3, 0));
 Cluster Matrixes;
 bool keys[1024];
@@ -24,22 +22,22 @@ void callback_mouse(GLFWwindow* Win, double xpos, double ypos) {
 	Cam.ProcessMouseMovement(Env.MouseX(xpos), Env.MouseY(ypos));
 }
 void callback_scroll(GLFWwindow* Win, double xoffset, double yoffset) { 
-	Cam.ProcessMouseScroll(yoffset);
+	Cam.ProcessMouseScroll((GLfloat)yoffset);
 }
 void Do_Movement() {
-	if (keys[GLFW_KEY_W]) Cam.ProcessKeyboard(FORWARD, Env.delta);
-	if (keys[GLFW_KEY_S]) Cam.ProcessKeyboard(BACKWARD, Env.delta);
-	if (keys[GLFW_KEY_A]) Cam.ProcessKeyboard(LEFT, Env.delta);
-	if (keys[GLFW_KEY_D]) Cam.ProcessKeyboard(RIGHT, Env.delta);
+	if (keys[GLFW_KEY_W]) Cam.ProcessKeyboard(FORWARD, Env.GetDelta());
+	if (keys[GLFW_KEY_S]) Cam.ProcessKeyboard(BACKWARD, Env.GetDelta());
+	if (keys[GLFW_KEY_A]) Cam.ProcessKeyboard(LEFT, Env.GetDelta());
+	if (keys[GLFW_KEY_D]) Cam.ProcessKeyboard(RIGHT, Env.GetDelta());
 }
 
 void Draw() {
 	Shader MyShader("Resources/vShader.versh", "Resources/fShader.fragsh");
 	GLuint 
 		ColRow[] = {
-		Matrixes.MatSqu.GetNColumn(), Matrixes.MatSqu.GetNRow(),
-		Matrixes.MatRec.GetNColumn(), Matrixes.MatRec.GetNRow(),
-		Matrixes.MatTri.GetNColumn(), Matrixes.MatTri.GetNRow()
+		(GLuint)Matrixes.MatSqu.GetNColumn(), (GLuint)Matrixes.MatSqu.GetNRow(),
+		(GLuint)Matrixes.MatRec.GetNColumn(), (GLuint)Matrixes.MatRec.GetNRow(),
+		(GLuint)Matrixes.MatTri.GetNColumn(), (GLuint)Matrixes.MatTri.GetNRow()
 	},
 		indices[] = { 0, 1, 2, 1, 2, 3 },
 		N = 1, l = 0,
@@ -54,7 +52,7 @@ void Draw() {
 	Axis[2] = { 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f };
 	
 	if (Matrixes.Once) {
-		size_t q = 0, w = 0;
+		GLuint q = 0, w = 0;
 		VAO = new GLuint; 
 		VBO = new GLuint; 
 		EBO = new GLuint;
@@ -117,7 +115,7 @@ void Draw() {
 		}
 		glLineWidth(3.f);
 
-		while (!glfwWindowShouldClose(Env.Win)) {
+		while (!glfwWindowShouldClose(Env.GetWin())) {
 			Env.UpdateFrames();
 			
 			glfwPollEvents();
@@ -128,7 +126,7 @@ void Draw() {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			MyShader.Use();
 			mat4 view = Cam.GetViewMatrix();
-			mat4 projection = perspective(45.0f, (GLfloat)Env.w / (GLfloat)Env.h, 0.1f, 100.0f);
+			mat4 projection = perspective(45.0f, (GLfloat)Env.GetWidth() / (GLfloat)Env.GetHeight(), 0.1f, 100.0f);
 			GLint viewLoc = glGetUniformLocation(MyShader.GetId(), "view");
 			GLint projLoc = glGetUniformLocation(MyShader.GetId(), "projection");
 			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, value_ptr(view));
@@ -164,8 +162,15 @@ void Draw() {
 				glBindVertexArray(0);
 			}
 
-			glfwSwapBuffers(Env.Win);
+			glfwSwapBuffers(Env.GetWin());
 		}
+
+		glDeleteVertexArrays(1, VAO);
+		glDeleteBuffers(1, VBO);
+		glDeleteBuffers(1, EBO);
+		delete VAO;
+		delete VBO;
+		delete EBO;
 	}
 	else {
 		switch (Matrixes.Tumbler)
@@ -347,7 +352,7 @@ void Draw() {
 		}
 		glLineWidth(3.f);
 
-		while (!glfwWindowShouldClose(Env.Win)) {
+		while (!glfwWindowShouldClose(Env.GetWin())) {
 			Env.UpdateFrames();
 
 			glfwPollEvents();
@@ -358,7 +363,7 @@ void Draw() {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			MyShader.Use();
 			mat4 view = Cam.GetViewMatrix();
-			mat4 projection = perspective(45.0f, (GLfloat)Env.w / (GLfloat)Env.h, 0.1f, 100.0f);
+			mat4 projection = perspective(45.0f, (GLfloat)Env.GetWidth() / (GLfloat)Env.GetHeight(), 0.1f, 100.0f);
 			GLint viewLoc = glGetUniformLocation(MyShader.GetId(), "view");
 			GLint projLoc = glGetUniformLocation(MyShader.GetId(), "projection");
 			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, value_ptr(view));
@@ -446,16 +451,16 @@ void Draw() {
 				glBindVertexArray(0);
 			}
 
-			glfwSwapBuffers(Env.Win);
+			glfwSwapBuffers(Env.GetWin());
 		}
-	}
-	
-	glDeleteVertexArrays(N, VAO);
-	glDeleteBuffers(N, VBO);
-	glDeleteBuffers(N, EBO);
-	delete[] VAO;
-	delete[] VBO;
-	delete[] EBO;
+
+		glDeleteVertexArrays(N, VAO);
+		glDeleteBuffers(N, VBO);
+		glDeleteBuffers(N, EBO);
+		delete[] VAO;
+		delete[] VBO;
+		delete[] EBO;
+	}	
 
 	glDeleteVertexArrays(1, VAOa);
 	glDeleteBuffers(1, VBOa);
@@ -465,10 +470,9 @@ void Draw() {
 
 void OpenGL() {
 	try {
-		Env.Init_GLFW(4, 0);
-		Env.Init_Win("OpenGL");
+		Env.InitWin("OpenGL");
 		Env.Callback_Set(callback_framebuffer_size, callback_key, callback_mouse, callback_scroll);
-		Env.Init_GLAD();
+		Env.InitGLAD();
 		Env.ApplyTests();
 
 		Draw();
@@ -482,7 +486,7 @@ void OpenGL() {
 };
 
 void MainMenu() {
-	size_t MainMenuChoice = 0;
+	int MainMenuChoice = 0;
 	try {
 		for (;;) {
 			cout
@@ -516,7 +520,7 @@ void MainMenu() {
 			}
 		}
 	}
-	catch (size_t) {
+	catch (int) {
 		cerr << "Choice fail!\n";
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
