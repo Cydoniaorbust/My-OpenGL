@@ -1,30 +1,46 @@
-#include "Study/GLEnvironment.h"
+#include "GLEnvironment.h"
 
-GLEnvironment::GLEnvironment() : 
-	w(1440),
-	h(900),
-	lastX(w / 2.),
-	lastY(h / 2.),
-	delta(0),
-	time_last(0) {}
+#include <iostream>
 
-void GLEnvironment::Init_GLFW(int a, int b) {
+#pragma region Ctor/Dtor
+
+GLEnvironment::GLEnvironment() : Width(0), Height(0), LastX(0), LastY(0), Delta(0), TimeLast(0) {}
+GLEnvironment::GLEnvironment(int W, int H) : GLEnvironment() {
+	Width = W;
+	Height = H;
+	LastX = Width / 2.;
+	LastY = Height / 2.;
+
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, a);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, b);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);	
 }
-void GLEnvironment::Init_Win(const char* name) {
-	Win = glfwCreateWindow(w, h, name, nullptr, nullptr);
-	if (Win == nullptr) 
-		throw new MYERROR("GLFW window is not initialized!\n");
+GLEnvironment::~GLEnvironment() {}
+
+#pragma endregion
+
+#pragma region Set/Get
+
+GLFWwindow* GLEnvironment::GetWin() const noexcept { return Win; }
+int GLEnvironment::GetWidth() const noexcept { return Width; }
+int GLEnvironment::GetHeight() const noexcept { return Height; }
+GLfloat GLEnvironment::GetDelta() const noexcept { return Delta; }
+
+#pragma endregion
+
+#pragma region Methods
+
+void GLEnvironment::InitWin(const char* name) {
+	Win = glfwCreateWindow(Width, Height, name, nullptr, nullptr);
+	if (!Win) throw new MYERROR("GLFW window is not initialized!\n");
 	glfwMakeContextCurrent(Win);
 }
 void GLEnvironment::Callback_Set(
-	GLFWframebuffersizefun buffer, 
-	GLFWkeyfun key, 
-	GLFWcursorposfun mouse, 
+	GLFWframebuffersizefun buffer,
+	GLFWkeyfun key,
+	GLFWcursorposfun mouse,
 	GLFWscrollfun scroll) {
 	glfwSetFramebufferSizeCallback(Win, buffer);
 	glfwSetKeyCallback(Win, key);
@@ -32,8 +48,8 @@ void GLEnvironment::Callback_Set(
 	glfwSetScrollCallback(Win, scroll);
 	glfwSetInputMode(Win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
-void GLEnvironment::Init_GLAD() {
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
+void GLEnvironment::InitGLAD() {
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		throw new MYERROR("Failed to initialize GLAD\n");
 }
 void GLEnvironment::ApplyTests() {
@@ -42,19 +58,24 @@ void GLEnvironment::ApplyTests() {
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 }
-
 GLfloat GLEnvironment::MouseX(double xpos) {
-	GLfloat xoffset = xpos - lastX;
-	lastX = xpos;
+	GLfloat xoffset = xpos - LastX;
+	LastX = xpos;
 	return xoffset;
 }
 GLfloat GLEnvironment::MouseY(double ypos) {
-	GLfloat yoffset = lastY - ypos;  // Reversed since y-coordinates go from bottom to left
-	lastY = ypos;
+	GLfloat yoffset = LastY - ypos;  // Reversed since y-coordinates go from bottom to left
+	LastY = ypos;
 	return yoffset;
 }
 void GLEnvironment::UpdateFrames() {
-	GLfloat time_current = glfwGetTime();
-	delta = time_current - time_last;
-	time_last = time_current;
+	GLfloat TimeCurrent = glfwGetTime();
+	Delta = TimeCurrent - TimeLast;
+	TimeLast = TimeCurrent;
 }
+
+#pragma endregion
+
+#pragma region Copy
+
+#pragma endregion
