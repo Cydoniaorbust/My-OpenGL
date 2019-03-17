@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Study/Shader.h"
-#include "Texture.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 #include <string>
 #include <fstream>
@@ -10,8 +11,8 @@
 #include <vector>
 
 using namespace glm;
-using std::string;
 using std::vector;
+using std::string;
 
 struct Vertex {
 	vec3 Position;
@@ -19,6 +20,11 @@ struct Vertex {
 	vec2 TexCoords;
 	vec3 Tangent;
 	vec3 Bitangent;
+};
+struct Texture {
+	GLuint id;
+	string type;
+	aiString path;
 };
 
 class Mesh {
@@ -51,7 +57,7 @@ public:
 
 		glBindVertexArray(0);
 	}
-	void Draw(Shader shader) {
+	void Draw(GLuint shader) {
 		GLuint diffuseNr = 1;
 		GLuint specularNr = 1;
 
@@ -59,7 +65,7 @@ public:
 			glActiveTexture(GL_TEXTURE0 + i);
 			string name = textures[i].type;
 			string number = (name == "texture_diffuse") ? std::to_string(diffuseNr++) : std::to_string(specularNr++);
-			glUniform1i(glGetUniformLocation(shader.GetId(), ("material." + name + number).c_str()), i);
+			glUniform1i(glGetUniformLocation(shader, ("material." + name + number).c_str()), i);
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
 		

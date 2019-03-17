@@ -3,7 +3,7 @@
 
 using namespace glm;
 
-GLEnvironment Env(800, 600);
+GLEnvironment Env;
 Camera Cam(vec3(0, 3, 0));
 Cluster Matrixes;
 bool keys[1024];
@@ -32,7 +32,7 @@ void Do_Movement() {
 }
 
 void Draw() {
-	Shader MyShader("Resources/vShader.versh", "Resources/fShader.fragsh");
+	uint MyShader = Shader::CreateProgram("Resources/vShader.versh", "Resources/fShader.fragsh");
 	GLuint 
 		ColRow[] = {
 		(GLuint)Matrixes.MatSqu.GetNColumn(), (GLuint)Matrixes.MatSqu.GetNRow(),
@@ -124,23 +124,23 @@ void Draw() {
 			//render
 			glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			MyShader.Use();
+			Shader::Use(MyShader);
 			mat4 view = Cam.GetViewMatrix();
 			mat4 projection = perspective(45.0f, (GLfloat)Env.GetWidth() / (GLfloat)Env.GetHeight(), 0.1f, 100.0f);
-			GLint viewLoc = glGetUniformLocation(MyShader.GetId(), "view");
-			GLint projLoc = glGetUniformLocation(MyShader.GetId(), "projection");
+			GLint viewLoc = glGetUniformLocation(MyShader, "view");
+			GLint projLoc = glGetUniformLocation(MyShader, "projection");
 			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, value_ptr(view));
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, value_ptr(projection));
 
 			//drawing
-			GLint vertexColorLocation = glGetUniformLocation(MyShader.GetId(), "color");
+			GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
 			glUniform4f(vertexColorLocation, 0.0f, 0.0f, 0.0f, 1.0f);
 			mat4 model;
 			model = rotate(model, Yaw[0][0], vec3(1.0f, 0.0f, 0.0f));
 			model = rotate(model, Yaw[0][1], vec3(0.0f, 1.0f, 0.0f));
 			model = rotate(model, Yaw[0][2], vec3(0.0f, 0.0f, 1.0f));
 			model = translate(model, vec3(Off[0][0], Off[0][1], Off[0][2]));
-			GLint modelLoc = glGetUniformLocation(MyShader.GetId(), "model");
+			GLint modelLoc = glGetUniformLocation(MyShader, "model");
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
 
 			glBindVertexArray(*VAO);
@@ -151,8 +151,8 @@ void Draw() {
 			glBindVertexArray(0);
 
 			mat4 model_a;
-			vertexColorLocation = glGetUniformLocation(MyShader.GetId(), "color");
-			modelLoc = glGetUniformLocation(MyShader.GetId(), "model");
+			vertexColorLocation = glGetUniformLocation(MyShader, "color");
+			modelLoc = glGetUniformLocation(MyShader, "model");
 
 			for (int i = 0; i < 3; i++) {
 				glUniform4f(vertexColorLocation, Axis[i][0], Axis[i][1], Axis[i][2], 1.0f);
@@ -361,11 +361,11 @@ void Draw() {
 			//render
 			glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			MyShader.Use();
+			Shader::Use(MyShader);
 			mat4 view = Cam.GetViewMatrix();
 			mat4 projection = perspective(45.0f, (GLfloat)Env.GetWidth() / (GLfloat)Env.GetHeight(), 0.1f, 100.0f);
-			GLint viewLoc = glGetUniformLocation(MyShader.GetId(), "view");
-			GLint projLoc = glGetUniformLocation(MyShader.GetId(), "projection");
+			GLint viewLoc = glGetUniformLocation(MyShader, "view");
+			GLint projLoc = glGetUniformLocation(MyShader, "projection");
 			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, value_ptr(view));
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, value_ptr(projection));
 
@@ -374,14 +374,14 @@ void Draw() {
 			{
 			case 0: {
 				for (GLuint i = 0; i < N - ColRow[4] * ColRow[5]; i++) {
-					GLint vertexColorLocation = glGetUniformLocation(MyShader.GetId(), "color");
+					GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
 					glUniform4f(vertexColorLocation, 0.0f, 0.0f, 0.0f, 1.0f);
 					mat4 model;
 					model = rotate(model, Yaw[i][0], vec3(1.0f, 0.0f, 0.0f));
 					model = rotate(model, Yaw[i][1], vec3(0.0f, 1.0f, 0.0f));
 					model = rotate(model, Yaw[i][2], vec3(0.0f, 0.0f, 1.0f));
 					model = translate(model, vec3(Off[i][0], Off[i][1], Off[i][2]));
-					GLint modelLoc = glGetUniformLocation(MyShader.GetId(), "model");
+					GLint modelLoc = glGetUniformLocation(MyShader, "model");
 					glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
 
 					glBindVertexArray(VAO[i]);
@@ -389,14 +389,14 @@ void Draw() {
 					glBindVertexArray(0);
 				}
 				for (GLuint i = N - ColRow[4] * ColRow[5]; i < N; i++) {
-					GLint vertexColorLocation = glGetUniformLocation(MyShader.GetId(), "color");
+					GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
 					glUniform4f(vertexColorLocation, 0.0f, 0.0f, 0.0f, 1.0f);
 					mat4 model;
 					model = rotate(model, Yaw[i][0], vec3(1.0f, 0.0f, 0.0f));
 					model = rotate(model, Yaw[i][1], vec3(0.0f, 1.0f, 0.0f));
 					model = rotate(model, Yaw[i][2], vec3(0.0f, 0.0f, 1.0f));
 					model = translate(model, vec3(Off[i][0], Off[i][1], Off[i][2]));
-					GLint modelLoc = glGetUniformLocation(MyShader.GetId(), "model");
+					GLint modelLoc = glGetUniformLocation(MyShader, "model");
 					glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
 
 					glBindVertexArray(VAO[i]);
@@ -406,14 +406,14 @@ void Draw() {
 			} break;
 			case 3: {
 				for (GLuint i = 0; i < N; i++) {
-					GLint vertexColorLocation = glGetUniformLocation(MyShader.GetId(), "color");
+					GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
 					glUniform4f(vertexColorLocation, 0.0f, 0.0f, 0.0f, 1.0f);
 					mat4 model;
 					model = rotate(model, Yaw[i][0], vec3(1.0f, 0.0f, 0.0f));
 					model = rotate(model, Yaw[i][1], vec3(0.0f, 1.0f, 0.0f));
 					model = rotate(model, Yaw[i][2], vec3(0.0f, 0.0f, 1.0f));
 					model = translate(model, vec3(Off[i][0], Off[i][1], Off[i][2]));
-					GLint modelLoc = glGetUniformLocation(MyShader.GetId(), "model");
+					GLint modelLoc = glGetUniformLocation(MyShader, "model");
 					glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
 
 					glBindVertexArray(VAO[i]);
@@ -423,14 +423,14 @@ void Draw() {
 			} break;
 			default: {
 				for (GLuint i = 0; i < N; i++) {
-					GLint vertexColorLocation = glGetUniformLocation(MyShader.GetId(), "color");
+					GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
 					glUniform4f(vertexColorLocation, 0.0f, 0.0f, 0.0f, 1.0f);
 					mat4 model;
 					model = rotate(model, Yaw[i][0], vec3(1.0f, 0.0f, 0.0f));
 					model = rotate(model, Yaw[i][1], vec3(0.0f, 1.0f, 0.0f));
 					model = rotate(model, Yaw[i][2], vec3(0.0f, 0.0f, 1.0f));
 					model = translate(model, vec3(Off[i][0], Off[i][1], Off[i][2]));
-					GLint modelLoc = glGetUniformLocation(MyShader.GetId(), "model");
+					GLint modelLoc = glGetUniformLocation(MyShader, "model");
 					glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
 
 					glBindVertexArray(VAO[i]);
@@ -441,10 +441,10 @@ void Draw() {
 			}
 			
 			for (int i = 0; i < 3; i++) {
-				GLint vertexColorLocation = glGetUniformLocation(MyShader.GetId(), "color");
+				GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
 				glUniform4f(vertexColorLocation, Axis[i][0], Axis[i][1], Axis[i][2], 1.0f);
 				mat4 model;
-				GLint modelLoc = glGetUniformLocation(MyShader.GetId(), "model");
+				GLint modelLoc = glGetUniformLocation(MyShader, "model");
 				glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
 				glBindVertexArray(VAOa[i]);
 				glDrawArrays(GL_LINES, 0, 2);
@@ -470,8 +470,8 @@ void Draw() {
 
 void OpenGL() {
 	try {
-		Env.InitWin("OpenGL");
-		Env.Callback_Set(callback_framebuffer_size, callback_key, callback_mouse, callback_scroll);
+		Env.InitWin(800, 600, "OpenGL");
+		Env.CallbackSet(callback_framebuffer_size, callback_key, callback_mouse, callback_scroll);
 		Env.InitGLAD();
 		Env.ApplyTests();
 

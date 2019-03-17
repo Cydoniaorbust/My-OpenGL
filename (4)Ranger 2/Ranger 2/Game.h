@@ -1,29 +1,37 @@
 #pragma once
 
-#include "Res_Manager.h"
-#include "Sprite_renderer.h"
+#include <Source.h>
 
-#include <glad/glad.h>
-
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-
-enum GameState { GAME_ACTIVE, GAME_MENU, GAME_WIN };
+#include "ResManager.h"
 
 class Game {
 public:
-	GameState	State;
-	GLboolean	Keys[1024];
-	GLuint		Width, Height;
-	Res_Manager Manager;
+	GLfloat Width;
+	GLfloat Height;
+	ResManager Manager;
+
+	GLFWwindow* GetWin() const noexcept;
+
+	void Init();
+	void ProcessInput();
+	void Update();
+	void Draw(CcharP, GLboolean);
+	void Swap();
+	
+	static GLEnvironment Env;
+	static Camera Cam;
+	static GLboolean Keys[1024];
+
+	static void CallbackFramebufferSize(GLFWwindow*, int, int);
+	static void CallbackMouse(GLFWwindow*, double, double);
+	static void CallbackScroll(GLFWwindow*, double, double);		
 	
 	Game();
-	Game(GLuint width, GLuint height);
+	Game(GLfloat width, GLfloat height);
 	~Game();
-	
-	void Init(SpriteRenderer &);
-	
-	void ProcessInput(GLfloat dt);
-	void Update(GLfloat dt);
-	void Render(SpriteRenderer);
+
+	Game(const Game &) = delete;
+	Game& operator=(const Game &) = delete;
+	Game(Game &&) = delete;
+	Game& operator=(Game &&) = delete;	
 };

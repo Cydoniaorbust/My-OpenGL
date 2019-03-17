@@ -3,7 +3,7 @@
 
 using namespace glm;
 
-GLEnvironment Env(800, 600);
+GLEnvironment Env;
 Camera Cam(vec3(0, 3, 0));
 TFigureMatrix <MyMesh> Mesh;
 GLfloat RRL = 0, GRL = 0, BRL = 0;
@@ -72,7 +72,7 @@ void Draw() {
 	catch (Fail) { Draw(); }
 	catch (...) { cerr << "Unexpected error!\n"; terminate(); }
 }
-void DrawSquares(Shader Shader, mat4 view, mat4 projection) {
+void DrawSquares(uint shader, mat4 view, mat4 projection) {
 	GLfloat Vertices[] = { 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f };
 	GLuint Indices[] = { 0, 1, 2, 1, 2, 3 };
 	//Offset/Yaw
@@ -101,18 +101,18 @@ void DrawSquares(Shader Shader, mat4 view, mat4 projection) {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 	//Shader
-	Shader.Use();
-	Shader.SetMat4("view", view);
-	Shader.SetMat4("projection", projection);
-	Shader.SetVec3("ViewPos", Cam.Position);
-	Shader.SetVec3("light.position", LightPos);
-	Shader.SetVec3("light.ambient", LightAmb);
-	Shader.SetVec3("light.diffuse", LightDif);
-	Shader.SetVec3("light.specular", LightSpc);
-	Shader.SetVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-	Shader.SetVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
-	Shader.SetVec3("material.specular", 0.5f, 0.5f, 0.5f);
-	Shader.SetFloat("material.shininess", 1024.0f);
+	Shader::Use(shader);
+	Shader::SetMat4(shader, "view", view);
+	Shader::SetMat4(shader, "projection", projection);
+	Shader::SetVec3(shader, "ViewPos", Cam.Position);
+	Shader::SetVec3(shader, "light.position", LightPos);
+	Shader::SetVec3(shader, "light.ambient", LightAmb);
+	Shader::SetVec3(shader, "light.diffuse", LightDif);
+	Shader::SetVec3(shader, "light.specular", LightSpc);
+	Shader::SetVec3(shader, "material.ambient", 1.0f, 0.5f, 0.31f);
+	Shader::SetVec3(shader, "material.diffuse", 1.0f, 0.5f, 0.31f);
+	Shader::SetVec3(shader, "material.specular", 0.5f, 0.5f, 0.5f);
+	Shader::SetFloat(shader, "material.shininess", 1024.0f);
 	//Drawing
 	glBindVertexArray(VAO);
 	for (int i = 0; i < N; i++) {
@@ -122,7 +122,7 @@ void DrawSquares(Shader Shader, mat4 view, mat4 projection) {
 		model = rotate(model, radians(Yaw[i][2]), vec3(0.0f, 0.0f, 1.0f));
 		//model = scale(model, vec3(0.5));
 		model = translate(model, vec3(Off[i][0], Off[i][1], Off[i][2]));
-		Shader.SetMat4("model", model);
+		Shader::SetMat4(shader, "model", model);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	}
 	glBindVertexArray(0);
@@ -131,7 +131,7 @@ void DrawSquares(Shader Shader, mat4 view, mat4 projection) {
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 };
-void DrawAxes(Shader Shader, mat4 view, mat4 projection) {
+void DrawAxes(uint shader, mat4 view, mat4 projection) {
 	GLfloat	Axis[] = { 
 		1.0f, 0.0f, 0.0f,-1.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,-1.0f, 0.0f,
@@ -147,25 +147,25 @@ void DrawAxes(Shader Shader, mat4 view, mat4 projection) {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(0);
 	//Shader
-	Shader.Use();
-	Shader.SetMat4("view", view);
-	Shader.SetMat4("projection", projection);
-	Shader.SetMat4("model", mat4());
+	Shader::Use(shader);
+	Shader::SetMat4(shader, "view", view);
+	Shader::SetMat4(shader, "projection", projection);
+	Shader::SetMat4(shader, "model", mat4());
 	//Drawing
 	glLineWidth(3.f);
 	glBindVertexArray(VAO_a);
-	Shader.SetVec3("_color", 1.0, 0.0, 0.0);
+	Shader::SetVec3(shader, "_color", 1.0, 0.0, 0.0);
 	glDrawArrays(GL_LINES, 0, 2);
-	Shader.SetVec3("_color", 0.0, 1.0, 0.0);
+	Shader::SetVec3(shader, "_color", 0.0, 1.0, 0.0);
 	glDrawArrays(GL_LINES, 2, 2);
-	Shader.SetVec3("_color", 0.0, 0.0, 1.0);
+	Shader::SetVec3(shader, "_color", 0.0, 0.0, 1.0);
 	glDrawArrays(GL_LINES, 4, 2);
 	glBindVertexArray(0);
 	//Cleaning
 	glDeleteVertexArrays(1, &VAO_a);
 	glDeleteBuffers(1, &VBO_a);
 }
-void DrawLamp(Shader Shader, mat4 view, mat4 projection) {
+void DrawLamp(uint shader, mat4 view, mat4 projection) {
 	float Vertices[] = {
 		-0.1f, -0.1f, -0.1f,
 		0.1f, -0.1f, -0.1f,
@@ -219,12 +219,12 @@ void DrawLamp(Shader Shader, mat4 view, mat4 projection) {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(0);
 	//Shader
-	Shader.Use();
-	Shader.SetMat4("view", view);
-	Shader.SetMat4("projection", projection);
+	Shader::Use(shader);
+	Shader::SetMat4(shader, "view", view);
+	Shader::SetMat4(shader, "projection", projection);
 	mat4 model;
 	model = translate(model, LightPos);
-	Shader.SetMat4("model", model);
+	Shader::SetMat4(shader, "model", model);
 	//Drawing
 	glBindVertexArray(VAO_l);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -233,37 +233,37 @@ void DrawLamp(Shader Shader, mat4 view, mat4 projection) {
 	glDeleteVertexArrays(1, &VAO_l);
 	glDeleteBuffers(1, &VBO_l);
 }
-void DrawHand(Shader Shader, mat4 view, mat4 projection) {
+void DrawHand(uint shader, mat4 view, mat4 projection) {
 	//Shader
-	Shader.Use();
-	Shader.SetMat4("view", view);
-	Shader.SetMat4("projection", projection);
+	Shader::Use(shader);
+	Shader::SetMat4(shader, "view", view);
+	Shader::SetMat4(shader, "projection", projection);
 	mat4 model;
 	model = scale(model, vec3(0.05f));
-	Shader.SetMat4("model", model);
-	Shader.SetVec3("ViewPos", Cam.Position);
-	Shader.SetVec3("light.position", LightPos);
-	Shader.SetVec3("light.ambient", LightAmb);
-	Shader.SetVec3("light.diffuse", LightDif);
-	Shader.SetVec3("light.specular", LightSpc);
-	Shader.SetVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-	Shader.SetVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
-	Shader.SetVec3("material.specular", 0.5f, 0.5f, 0.5f);
-	Shader.SetFloat("material.shininess", 10.0f);
+	Shader::SetMat4(shader, "model", model);
+	Shader::SetVec3(shader, "ViewPos", Cam.Position);
+	Shader::SetVec3(shader, "light.position", LightPos);
+	Shader::SetVec3(shader, "light.ambient", LightAmb);
+	Shader::SetVec3(shader, "light.diffuse", LightDif);
+	Shader::SetVec3(shader, "light.specular", LightSpc);
+	Shader::SetVec3(shader, "material.ambient", 1.0f, 0.5f, 0.31f);
+	Shader::SetVec3(shader, "material.diffuse", 1.0f, 0.5f, 0.31f);
+	Shader::SetVec3(shader, "material.specular", 0.5f, 0.5f, 0.5f);
+	Shader::SetFloat(shader, "material.shininess", 10.0f);
 }
 
 void OpenGL() {
 	try {
-		Env.InitWin("OpenGL");
-		Env.Callback_Set(callback_framebuffer_size, nullptr, callback_mouse, callback_scroll);
+		Env.InitWin(800, 600, "OpenGL");
+		Env.CallbackSet(callback_framebuffer_size, nullptr, callback_mouse, callback_scroll);
 		Env.InitGLAD();
 		Env.ApplyTests();
 
 		Mesh.ImportObjFile();
-		Shader
-			ObjShader("Res/vShader.versh", "Res/fShader.fragsh"),
-			AxisShader("Res/Axis.versh", "Res/Axis.fragsh"),
-			LampShader("Res/Lamp.versh", "Res/Lamp.fragsh");
+		uint
+			ObjShader = Shader::CreateProgram("Res/vShader.versh", "Res/fShader.fragsh"),
+			AxisShader = Shader::CreateProgram("Res/Axis.versh", "Res/Axis.fragsh"),
+			LampShader = Shader::CreateProgram("Res/Lamp.versh", "Res/Lamp.fragsh");
 		GLuint nbFrames = 0;
 		GLfloat LastTime = glfwGetTime();
 		//Assigning

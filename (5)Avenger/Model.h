@@ -2,11 +2,7 @@
 
 #include "Mesh.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include "Stb/stb_image.h"
 
 class Model {
 public:
@@ -19,7 +15,7 @@ public:
 
 	Model() {}
 	Model(string const &path, bool gamma = false) : gammaCorrection(gamma) { loadModel(path); }
-	void Draw(Shader shader) { for (GLuint i = 0; i < meshes.size(); i++) meshes[i].Draw(shader); }
+	void Draw(GLuint shader) { for (GLuint i = 0; i < meshes.size(); i++) meshes[i].Draw(shader); }
 	void Move(vec3 delta) { position = translate(position, delta); }
 	void Scale(vec3 delta) { position = scale(position, delta); }
 	void Rotate(float delta, vec3 epsilon) { position = rotate(position, radians(delta), epsilon); }

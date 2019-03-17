@@ -1,8 +1,6 @@
 #pragma once
 
-#include <assimp/Importer.hpp>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <Assimp/Importer.hpp>
 
 #include <string>
 #include <fstream>
@@ -12,6 +10,7 @@
 
 using namespace glm;
 using std::vector;
+using std::string;
 
 struct Vertex {
 	vec3 Position;
@@ -56,7 +55,7 @@ public:
 
 		glBindVertexArray(0);
 	}
-	void Draw(Shader shader) {
+	void Draw(uint shader) {
 		GLuint diffuseNr = 1;
 		GLuint specularNr = 1;
 
@@ -64,7 +63,7 @@ public:
 			glActiveTexture(GL_TEXTURE0 + i);
 			string name = textures[i].type;
 			string number = (name == "texture_diffuse") ? std::to_string(diffuseNr++) : std::to_string(specularNr++);
-			glUniform1i(glGetUniformLocation(shader.GetId(), ("material." + name + number).c_str()), i);
+			Shader::SetInt(shader, "material." + name + number, i);
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
 		

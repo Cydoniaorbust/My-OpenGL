@@ -28,6 +28,9 @@
     <ClCompile Include="Game_Map.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assimp-vc140-mt.dll" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{B461F1D1-881A-4387-9FA9-1DC238963E77}</ProjectGuid>

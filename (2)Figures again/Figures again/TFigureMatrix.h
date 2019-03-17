@@ -61,7 +61,7 @@ public:
 
 	void ImportObjFile() {
 		try {
-			fin.open("C:/Google Диск/Resources/Model/Alien.obj");
+			fin.open("D:/Google/Resources/Model/Alien.obj");
 			if (!fin.is_open()) throw Fail::FailFileRead();
 			ReadObjFile();
 		}

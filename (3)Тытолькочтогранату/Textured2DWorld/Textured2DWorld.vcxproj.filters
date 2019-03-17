@@ -27,9 +27,4 @@
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="assimp-vc140-mt.dll">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-  </ItemGroup>
 </Project>

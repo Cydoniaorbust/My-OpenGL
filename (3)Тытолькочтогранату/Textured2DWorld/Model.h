@@ -1,14 +1,13 @@
 #pragma once
 
 #include "Mesh.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include <Assimp/Importer.hpp>
+#include <Assimp/scene.h>
+#include <Assimp/postprocess.h>
 
 class Model {
+
 public:
 	vector<Texture> textures_loaded;
 	vector<Mesh> meshes;
@@ -16,7 +15,8 @@ public:
 	bool gammaCorrection;
 
 	Model(string const &path, bool gamma = false) : gammaCorrection(gamma) { loadModel(path); }
-	void Draw(Shader shader) { for (GLuint i = 0; i < meshes.size(); i++) meshes[i].Draw(shader); }
+	void Draw(uint shader) { for (GLuint i = 0; i < meshes.size(); i++) meshes[i].Draw(shader); }
+
 private:
 	GLuint LoadTextureFromFile(const char *path, const std::string &directory, bool gamma = false) {
 		std::string filename(path);
@@ -140,4 +140,5 @@ private:
 		}
 		return textures;
 	}
+
 };
