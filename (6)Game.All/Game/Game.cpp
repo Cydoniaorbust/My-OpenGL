@@ -49,7 +49,8 @@ void Game::Script_Arena(int fights) {
 			<< "\nFirst wins: " << Score[1]
 			<< "\nSecond wins: " << Score[2]
 			<< endl;
-		Sleep(10000);
+		//Sleep(100000);
+		system("pause");
 	}
 }
 
@@ -57,7 +58,7 @@ int main() {
 	srand((unsigned int)time(NULL));
 
 	Game Game_1;
-	Game_1.Script_Arena(100);
+	Game_1.Script_Arena(1);
 
 	return 0;
 }

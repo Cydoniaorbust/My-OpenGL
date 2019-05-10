@@ -61,7 +61,7 @@ public:
 	Attack Att;
 	Defence Def;
 
-	virtual ~Unit();
+	~Unit();
 	void Spawn();	
 	bool isDead();
 	
