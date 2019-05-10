@@ -1,12 +1,5 @@
 #include <Source.h>
 
-#pragma comment (lib, "Assimp/x86/assimp.lib")
-
-#ifndef STB_IMAGE_IMPLEMENTATION
-#define STB_IMAGE_IMPLEMENTATION
-#include <Stb/stb_image.h>
-#endif
-
 #include "Model.h"
 
 #include <iomanip>
@@ -107,8 +100,12 @@ void OpenGL() {
 		Env.ApplyTests();
 	//Preparation begins
 		uint 
-			AxisShader = Shader::CreateProgram("Res/Axis.vert", "Res/Axis.frag"),
-			ObjShader = Shader::CreateProgram("Res/Shader.vert", "Res/Shader.frag");
+			AxisShader = Shader::CreateProgram(
+				"D:/Google/Resources/Shaders/Vert/Simp.vert", 
+				"D:/Google/Resources/Shaders/Frag/Axis.frag"),
+			ObjShader = Shader::CreateProgram(
+				"D:/Google/Resources/Shaders/Vert/Obj.vert",
+				"D:/Google/Resources/Shaders/Frag/Dir+Spot+Point+Emis.frag");
 		Model Model("D:/Google/Resources/Model/runner/runner.obj");
 		GLuint nbFrames = 0;
 		GLfloat LastTime = (GLfloat)glfwGetTime();
@@ -129,6 +126,7 @@ void OpenGL() {
 		//FPS counter
 			nbFrames++;
 			if (GLfloat(glfwGetTime()) - LastTime >= 1.0) {
+				system("cls");
 				std::cout << nbFrames << " fps\n";
 				nbFrames = 0;
 				LastTime += 1.0;
@@ -140,8 +138,8 @@ void OpenGL() {
 	//Cleaning
 		glfwTerminate();
 	}
-	catch (MYERROR* e) {
-		std::cerr << e->what() << std::endl;
+	catch (Error* e) {
+		std::cerr << e->GetData() << std::endl;
 		delete e;
 		std::terminate();
 	}

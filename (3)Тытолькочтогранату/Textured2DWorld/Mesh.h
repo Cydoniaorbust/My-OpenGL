@@ -55,7 +55,7 @@ public:
 
 		glBindVertexArray(0);
 	}
-	void Draw(uint shader) {
+	void Draw(GLuint shader) {
 		GLuint diffuseNr = 1;
 		GLuint specularNr = 1;
 

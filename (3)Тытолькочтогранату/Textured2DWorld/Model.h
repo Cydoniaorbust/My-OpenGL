@@ -7,21 +7,23 @@
 #include <Assimp/postprocess.h>
 
 class Model {
-
 public:
 	vector<Texture> textures_loaded;
 	vector<Mesh> meshes;
 	string directory;
 	bool gammaCorrection;
 
-	Model(string const &path, bool gamma = false) : gammaCorrection(gamma) { loadModel(path); }
-	void Draw(uint shader) { for (GLuint i = 0; i < meshes.size(); i++) meshes[i].Draw(shader); }
+	Model(string const &path, bool gamma = false) : gammaCorrection(gamma) { 
+		loadModel(path);
+	}
+
+	void Draw(GLuint shader) { 
+		for (GLuint i = 0; i < meshes.size(); i++) meshes[i].Draw(shader); 
+	}
 
 private:
-	GLuint LoadTextureFromFile(const char *path, const std::string &directory, bool gamma = false) {
-		std::string filename(path);
-		filename = directory + '/' + filename;
-
+	GLuint LoadTextureFromFile(const char *path, const string &directory, bool gamma = false) {
+		string filename(directory + '/' + path);
 		GLuint textureID;
 		glGenTextures(1, &textureID);
 
@@ -50,7 +52,7 @@ private:
 		return textureID;
 	}
 
-	void loadModel(std::string const &path) {
+	void loadModel(string const &path) {
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(path, aiProcess_CalcTangentSpace | aiProcess_FlipUVs); //  | aiProcess_GenNormals);
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
@@ -68,13 +70,13 @@ private:
 		for (GLuint i = 0; i < node->mNumChildren; i++) processNode(node->mChildren[i], scene);
 	}
 	Mesh processMesh(aiMesh *mesh, const aiScene *scene) {
-		std::vector<Vertex> vertices;
-		std::vector<GLuint> indices;
-		std::vector<Texture> textures;
+		vector<Vertex> vertices;
+		vector<GLuint> indices;
+		vector<Texture> textures;
 
 		for (GLuint i = 0; i < mesh->mNumVertices; i++) {
 			Vertex vertex;
-			glm::vec3 vector; 
+			vec3 vector; 
 			vector.x = mesh->mVertices[i].x;
 			vector.y = mesh->mVertices[i].y;
 			vector.z = mesh->mVertices[i].z;
@@ -84,12 +86,12 @@ private:
 			vector.z = mesh->mNormals[i].z;
 			vertex.Normal = vector;
 			if (mesh->mTextureCoords[0]) {
-				glm::vec2 vec;
+				vec2 vec;
 				vec.x = mesh->mTextureCoords[0][i].x;
 				vec.y = mesh->mTextureCoords[0][i].y;
 				vertex.TexCoords = vec;
 			}
-			else vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+			else vertex.TexCoords = vec2(0.0f, 0.0f);
 			//vector.x = mesh->mTangents[i].x;
 			//vector.y = mesh->mTangents[i].y;
 			//vector.z = mesh->mTangents[i].z;
@@ -106,25 +108,21 @@ private:
 		}
 		
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-		std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
-		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-		std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
-		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-		std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
-		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+		vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse"); textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular"); textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+		vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal"); textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+		vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height"); textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 		return Mesh(vertices, indices, textures);
 	}
-	std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName) {
-		std::vector<Texture> textures;
+	vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {
+		vector<Texture> textures;
 		for (GLuint i = 0; i < mat->GetTextureCount(type); i++) {
 			aiString str;
 			mat->GetTexture(type, i, &str);
 			bool skip = false;
 			for (GLuint j = 0; j < textures_loaded.size(); j++)
-				if (std::strcmp(textures_loaded[j].path.C_Str(), str.C_Str()) == 0) {
+				if (strcmp(textures_loaded[j].path.C_Str(), str.C_Str()) == 0) {
 					textures.push_back(textures_loaded[j]);
 					skip = true;
 					break;
@@ -140,5 +138,4 @@ private:
 		}
 		return textures;
 	}
-
 };
