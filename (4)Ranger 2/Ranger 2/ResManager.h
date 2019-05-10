@@ -7,27 +7,54 @@
 #include <string>
 
 using std::string;
-using CcharP = const char*;
 
 class ResManager {
 private:
-	std::map<string, uint> VAOs;
-	std::map<string, uint> Shaders;
-	std::map<string, uint> Textures;
+	std::map<string, GLuint> VAOs;
+	std::map<string, GLuint> Shaders;
+	std::map<string, Texture> Textures;
 
 public:
-	uint GetVAO(string);
-	void SetVAO(string, const GLfloat*, int, GLboolean);
+	GLuint GetVAO(string name) {
+		return VAOs[name]; 
+	}
+	void SetVAO(string name, const GLfloat* vertices, int size, GLboolean axis) {
+		glGenVertexArrays(1, &VAOs[name]);
+		GLuint vbo;
+		glGenBuffers(1, &vbo);
+		glBindVertexArray(VAOs[name]);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, size * sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	uint GetShader(string);
-	void SetShader(string, CcharP, CcharP, CcharP);
+		if (axis) glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		else glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
 
-	uint GetTexture(string);
-	void SetTexture(string, CcharP);
-	uint LoadTexture(CcharP);
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+		glDeleteBuffers(1, &vbo);
+	}
+
+	GLuint GetShader(string name) {
+		return Shaders[name]; 
+	}
+	void SetShader(string name, const char* V, const char* F, const char* G = nullptr) { 
+		Shaders[name] = Shader::CreateProgram(V, F, G); 
+	}
+
+	Texture GetTexture(string name) { 
+		return Textures[name]; 
+	}
+	void SetTexture(string name, const char* file) { 
+		Textures[name].LoadFromFile(file);
+	}
 
 	ResManager() {}
-	~ResManager();
+	~ResManager() {
+		for (auto iter : VAOs) glDeleteVertexArrays(1, &iter.second);
+		for (auto iter : Shaders) glDeleteProgram(iter.second);
+		for (auto iter : Textures) glDeleteTextures(1, &iter.second.Id);
+	}
 
 	ResManager(const ResManager &) = delete;
 	ResManager& operator=(const ResManager &) = delete;

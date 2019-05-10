@@ -1,15 +1,14 @@
+#include <Source.h>
+
 #include "Game.h"
 
 #include <iostream>
 
-class Error : public std::exception {
-	const char* data;
-public:
-	Error(const char* _data) : data(_data) {};
-	const char* GetData() { return data; };
-};
+GLboolean Game::Keys[1024];
+GLEnvironment Game::Env;
+Camera Game::Cam(vec3(1, 1, -3));
 
-int main(int argc, char *argv[]) {
+int main(int argc, char * argv[]) {
 	try {
 		Game Ranger(800, 600);
 
