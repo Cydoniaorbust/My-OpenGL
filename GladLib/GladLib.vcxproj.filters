@@ -26,7 +26,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Include\GL\Glad\Release\glad.cpp">
+    <ClCompile Include="..\..\..\Include\GL\Glad\Debug\glad.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
