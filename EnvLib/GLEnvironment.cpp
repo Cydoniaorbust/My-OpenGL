@@ -1,19 +1,22 @@
 #include "stdafx.h"
 #include "GLEnvironment.h"
 
-GLEnvironment::GLEnvironment() : Width(0), Height(0), Delta(0), LastX(0), LastY(0), TimeLast(0) {
+GLEnvironment::GLEnvironment() : Width(0), Height(0), LastX(0), LastY(0), TimeElapsed(0) {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+	QueryPerformanceFrequency(&Frequency);
+	QueryPerformanceCounter(&TimeCurrent);
 }
 GLEnvironment::~GLEnvironment() {}
 
 GLFWwindow* GLEnvironment::GetWin() const noexcept { return Win; }
 int GLEnvironment::GetWidth() const noexcept { return Width; }
 int GLEnvironment::GetHeight() const noexcept { return Height; }
-float GLEnvironment::GetDelta() const noexcept { return Delta; }
+float GLEnvironment::GetDelta() const noexcept { return TimeElapsed; }
 
 void GLEnvironment::InitWin(int w, int h, const char* name) {
 	Width = w;
@@ -22,14 +25,10 @@ void GLEnvironment::InitWin(int w, int h, const char* name) {
 	LastY = Height / 2.;
 
 	Win = glfwCreateWindow(Width, Height, name, nullptr, nullptr);
-	if (!Win) throw new MYERROR("GLFW window is not initialized!\n");
+	if (!Win) throw new Error("GLFW window is not initialized!\n");
 	glfwMakeContextCurrent(Win);
 }
-void GLEnvironment::CallbackSet(
-	GLFWframebuffersizefun buffer,
-	GLFWkeyfun key,
-	GLFWcursorposfun mouse,
-	GLFWscrollfun scroll) {
+void GLEnvironment::CallbackSet(GLFWframebuffersizefun buffer, GLFWkeyfun key, GLFWcursorposfun mouse, GLFWscrollfun scroll) {
 	glfwSetFramebufferSizeCallback(Win, buffer);
 	glfwSetKeyCallback(Win, key);
 	glfwSetCursorPosCallback(Win, mouse);
@@ -38,7 +37,7 @@ void GLEnvironment::CallbackSet(
 }
 void GLEnvironment::InitGLAD() {
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		throw new MYERROR("Failed to initialize GLAD\n");
+		throw new Error("Failed to initialize GLAD\n");
 }
 void GLEnvironment::ApplyTests() {
 	glEnable(GL_DEPTH_TEST);
@@ -46,8 +45,8 @@ void GLEnvironment::ApplyTests() {
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 float GLEnvironment::MouseX(double xpos) {
 	float xoffset = xpos - LastX;
@@ -60,7 +59,8 @@ float GLEnvironment::MouseY(double ypos) {
 	return yoffset;
 }
 void GLEnvironment::UpdateFrames() {
-	float TimeCurrent = glfwGetTime();
-	Delta = TimeCurrent - TimeLast;
 	TimeLast = TimeCurrent;
+	QueryPerformanceCounter(&TimeCurrent);
+	TimeElapsed = (TimeCurrent.QuadPart - TimeLast.QuadPart) / (double)Frequency.QuadPart;
+	//TimeElapsed = ((TimeCurrent.QuadPart - TimeLast.QuadPart) / (double)Frequency.QuadPart) * 1000;
 }
