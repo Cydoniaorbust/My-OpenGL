@@ -1,6 +1,8 @@
 #pragma once
 
 #pragma comment (lib, "opengl32.lib")
+#pragma comment (lib, "Glfw/Win64/lib-vc2015/glfw3.lib")
+#pragma comment (lib, "Assimp/x64/assimp-vc140-mt.lib")
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Glad/Debug.lib")
@@ -18,15 +20,7 @@
 	#pragma comment (lib, "TextureLib/Release_x64.lib")
 #endif
 
-#ifdef _WIN64
-#pragma comment (lib, "Glfw/Win64/lib-vc2015/glfw3.lib")
 #include <glfw/Win64/glfw3.h>
-#else
-#pragma comment (lib, "Glfw/Win32/lib-vc2015/glfw3.lib")
-#include <glfw/Win32/glfw3.h>
-#endif
-
-#pragma comment (lib, "opengl32.lib")
 
 #include <GLEnvironment.h>
 #include <Shader.h>
