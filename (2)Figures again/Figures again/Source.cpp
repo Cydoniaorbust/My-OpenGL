@@ -261,9 +261,15 @@ void OpenGL() {
 
 		Mesh.ImportObjFile();
 		uint
-			ObjShader = Shader::CreateProgram("Res/vShader.versh", "Res/fShader.fragsh"),
-			AxisShader = Shader::CreateProgram("Res/Axis.versh", "Res/Axis.fragsh"),
-			LampShader = Shader::CreateProgram("Res/Lamp.versh", "Res/Lamp.fragsh");
+			ObjShader = Shader::CreateProgram(
+				"D:/Google/Resources/Shaders/Vert/NoTexShader.vert",
+				"D:/Google/Resources/Shaders/Frag/NoTexShader.frag"),
+			AxisShader = Shader::CreateProgram(
+				"D:/Google/Resources/Shaders/Vert/Simp.vert",
+				"D:/Google/Resources/Shaders/Frag/Axis.frag"),
+			LampShader = Shader::CreateProgram(
+				"D:/Google/Resources/Shaders/Vert/Simp.vert", 
+				"D:/Google/Resources/Shaders/Frag/Lamp.frag");
 		GLuint nbFrames = 0;
 		GLfloat LastTime = glfwGetTime();
 		//Assigning
@@ -302,6 +308,7 @@ void OpenGL() {
 			//FPS counter
 			nbFrames++;
 			if (GLfloat(glfwGetTime()) - LastTime >= 1.0) {
+				system("cls");
 				cout << nbFrames << " fps\n";// printf("%f ms/frame\n", 1000.0/double(nbFrames));
 				cout << fixed << setprecision(0) << "["
 					<< Cam.Position.x << "]:["
@@ -321,8 +328,8 @@ void OpenGL() {
 
 		glfwTerminate();
 	}
-	catch (MYERROR* e) {
-		cerr << e->what() << endl;
+	catch (Error* e) {
+		cerr << e->GetData() << endl;
 		delete e;
 		terminate();
 	}
