@@ -32,7 +32,9 @@ void Do_Movement() {
 }
 
 void Draw() {
-	uint MyShader = Shader::CreateProgram("Resources/vShader.versh", "Resources/fShader.fragsh");
+	uint MyShader = Shader::CreateProgram(
+		"D:/Google/Resources/Shaders/Vert/Simp.vert", 
+		"D:/Google/Resources/Shaders/Frag/Simp.frag");
 	GLuint 
 		ColRow[] = {
 		(GLuint)Matrixes.MatSqu.GetNColumn(), (GLuint)Matrixes.MatSqu.GetNRow(),
@@ -133,7 +135,7 @@ void Draw() {
 			glUniformMatrix4fv(projLoc, 1, GL_FALSE, value_ptr(projection));
 
 			//drawing
-			GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
+			GLint vertexColorLocation = glGetUniformLocation(MyShader, "_color");
 			glUniform4f(vertexColorLocation, 0.0f, 0.0f, 0.0f, 1.0f);
 			mat4 model;
 			model = rotate(model, Yaw[0][0], vec3(1.0f, 0.0f, 0.0f));
@@ -151,7 +153,7 @@ void Draw() {
 			glBindVertexArray(0);
 
 			mat4 model_a;
-			vertexColorLocation = glGetUniformLocation(MyShader, "color");
+			vertexColorLocation = glGetUniformLocation(MyShader, "_color");
 			modelLoc = glGetUniformLocation(MyShader, "model");
 
 			for (int i = 0; i < 3; i++) {
@@ -374,7 +376,7 @@ void Draw() {
 			{
 			case 0: {
 				for (GLuint i = 0; i < N - ColRow[4] * ColRow[5]; i++) {
-					GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
+					GLint vertexColorLocation = glGetUniformLocation(MyShader, "_color");
 					glUniform4f(vertexColorLocation, 0.0f, 0.0f, 0.0f, 1.0f);
 					mat4 model;
 					model = rotate(model, Yaw[i][0], vec3(1.0f, 0.0f, 0.0f));
@@ -389,7 +391,7 @@ void Draw() {
 					glBindVertexArray(0);
 				}
 				for (GLuint i = N - ColRow[4] * ColRow[5]; i < N; i++) {
-					GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
+					GLint vertexColorLocation = glGetUniformLocation(MyShader, "_color");
 					glUniform4f(vertexColorLocation, 0.0f, 0.0f, 0.0f, 1.0f);
 					mat4 model;
 					model = rotate(model, Yaw[i][0], vec3(1.0f, 0.0f, 0.0f));
@@ -406,7 +408,7 @@ void Draw() {
 			} break;
 			case 3: {
 				for (GLuint i = 0; i < N; i++) {
-					GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
+					GLint vertexColorLocation = glGetUniformLocation(MyShader, "_color");
 					glUniform4f(vertexColorLocation, 0.0f, 0.0f, 0.0f, 1.0f);
 					mat4 model;
 					model = rotate(model, Yaw[i][0], vec3(1.0f, 0.0f, 0.0f));
@@ -423,7 +425,7 @@ void Draw() {
 			} break;
 			default: {
 				for (GLuint i = 0; i < N; i++) {
-					GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
+					GLint vertexColorLocation = glGetUniformLocation(MyShader, "_color");
 					glUniform4f(vertexColorLocation, 0.0f, 0.0f, 0.0f, 1.0f);
 					mat4 model;
 					model = rotate(model, Yaw[i][0], vec3(1.0f, 0.0f, 0.0f));
@@ -441,7 +443,7 @@ void Draw() {
 			}
 			
 			for (int i = 0; i < 3; i++) {
-				GLint vertexColorLocation = glGetUniformLocation(MyShader, "color");
+				GLint vertexColorLocation = glGetUniformLocation(MyShader, "_color");
 				glUniform4f(vertexColorLocation, Axis[i][0], Axis[i][1], Axis[i][2], 1.0f);
 				mat4 model;
 				GLint modelLoc = glGetUniformLocation(MyShader, "model");
@@ -478,8 +480,8 @@ void OpenGL() {
 		Draw();
 		glfwTerminate();
 	}
-	catch (MYERROR* e) { 
-		cerr << e->what() << endl; 
+	catch (Error* e) { 
+		cerr << e->GetData() << endl; 
 		delete e;
 		terminate(); 
 	}

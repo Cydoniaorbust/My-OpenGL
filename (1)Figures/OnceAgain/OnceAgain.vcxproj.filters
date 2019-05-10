@@ -71,12 +71,4 @@
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\vShader.versh">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="Resources\fShader.fragsh">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-  </ItemGroup>
 </Project>
