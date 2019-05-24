@@ -11,14 +11,14 @@
 using namespace std;
 
 namespace My {
-	class mesh {
+	class Mesh {
 	public:
 		GLuint VAO, VBO, EBO;
 		vector<Vertex> Vertices;
 		vector<GLuint> Indices;
 		vector<Texture> Textures;
 
-		mesh(vector<Vertex> ver, vector<GLuint> ind, vector<Texture> tex) : Vertices(ver), Indices(ind), Textures(tex) {
+		Mesh(vector<Vertex> ver, vector<GLuint> ind, vector<Texture> tex) : Vertices(ver), Indices(ind), Textures(tex) {
 			glGenVertexArrays(1, &VAO);
 			glGenBuffers(1, &VBO);
 			glGenBuffers(1, &EBO);
@@ -33,7 +33,7 @@ namespace My {
 			glEnableVertexAttribArray(1); glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
 			glEnableVertexAttribArray(2); glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
 			glEnableVertexAttribArray(3); glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
-			glEnableVertexAttribArray(4); glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
+			glEnableVertexAttribArray(4); glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent)); //-V112
 
 			glBindVertexArray(0);
 		}

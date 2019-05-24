@@ -9,66 +9,31 @@
 
 class manager {
 private:
-	/*
-	entity* back;
-	
-	entity* player;
-	entity* player_hit;
-
-	std::map<string, entity*> enemies;
-	std::map<string, entity*> enemies_hit;
-	*/
-
 public:
-	background BImage;
-	player Hero;
-	enemy Enemy;
-	hitbox Hitbox;
-	
-	/*
-	GLuint GetVAO(string name) {
-		return VAOs[name];
+	Background BImage;
+
+	Player Hero;
+	Enemy Foe;
+
+	vector<Bullet> shots;
+
+	static GLfloat Sqr(GLfloat var) { return var * var; }
+	static GLfloat CountDistance(const mat4& first, const mat4& second) {
+		return sqrt(Sqr(second[3][0] - first[3][0]) + Sqr(second[3][2] - first[3][2]));
 	}
-	void SetVAO(string name, const GLfloat* vertices, int size, GLboolean axis) {
-		glGenVertexArrays(1, &VAOs[name]);
-		GLuint vbo;
-		glGenBuffers(1, &vbo);
-		glBindVertexArray(VAOs[name]);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, size * sizeof(vertices), vertices, GL_STATIC_DRAW);
+	static bool CollisionBetween(Hitbox* first, Hitbox* second) {
+		mat4 a = first->GetPosition();
+		mat4 b = second->GetPosition();
+		GLfloat DistBetween = first->GetRadius() + second->GetRadius();
 
-		if (axis) glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-		else glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), (GLvoid*)0);
-
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
-		glDeleteBuffers(1, &vbo);
+		if (CountDistance(a, b) < DistBetween) return true;
+		else return false;
 	}
 
-	GLuint GetShader(string name) {
-		return Shaders[name];
+	manager() {
+		shots.reserve(100);
 	}
-	void SetShader(string name, const char* V, const char* F, const char* G = nullptr) {
-		Shaders[name] = Shader::CreateProgram(V, F, G);
-	}
-
-	Texture GetTexture(string name) {
-		return Textures[name];
-	}
-	void SetTexture(string name, const char* file) {
-		Textures[name].LoadFromFile(file);
-	}
-	*/
-
-	manager() {}
-	~manager() {
-		/*
-		for (auto iter : VAOs) glDeleteVertexArrays(1, &iter.second);
-		for (auto iter : Shaders) glDeleteProgram(iter.second);
-		for (auto iter : Textures) glDeleteTextures(1, &iter.second.Id);
-		*/
-	}
+	~manager() {}
 
 	manager(const manager &) = delete;
 	manager& operator=(const manager &) = delete;

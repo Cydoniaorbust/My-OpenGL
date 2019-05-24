@@ -2,19 +2,15 @@
 
 #include "Entity.h"
 
-class physobject : public entity {
+class PhysObject : public Entity {
 private:
 	int HP_current;
-	UINT HP_max;
-public:
-	model Model;
+	GLuint HP_max;
 
-	int MyHP() {
-		return HP_current;
-	}
-	UINT MyMaxHP() {
-		return HP_max;
-	}
+	Hitbox hitbox;
+	bool Collision = false;
+public:
+	int GetHP() { return HP_current; }
 	void AddHP(int HP_added) {
 		int sum = HP_added + HP_current;
 		if (sum > HP_max) HP_current = HP_max;
@@ -22,8 +18,15 @@ public:
 			if (sum < 0) HP_current = 0;
 			else HP_current += HP_added;
 	}
-	
-	void Draw(glm::vec3 Position, glm::mat4 View, float Aspect) {
+
+	GLuint GetMaxHP() { return HP_max; }
+	void SetMaxHP(GLuint max) { HP_max = max; }
+
+	Hitbox* GetHitbox() { return &hitbox; }
+	void Collide() { Collision = true; }
+	void UnCollide() { Collision = false; }
+
+	void Draw(const vec3& Position, const mat4& View, float Aspect) {
 		Shader::Use(GetShader());
 
 		Shader::SetVec3(GetShader(), "ViewPos", Position);
@@ -32,61 +35,24 @@ public:
 		Shader::SetMat4(GetShader(), "view", View);
 		Shader::SetMat4(GetShader(), "projection", glm::perspective(radians(90.0f), Aspect, 0.1f, 1000.0f));
 
-		Shader::SetMat4(GetShader(), "model", Model.position);
-		Model.Draw(GetShader());
+		Shader::SetMat4(GetShader(), "model", GetModel()->GetPosition());
+		GetModel()->Draw(GetShader());
+
+		hitbox.Draw(View, Aspect, Collision);
 	}
 
-	void NameYourself() {
-		MyNewName("Object");
-	}
+	void NameYourself() { SetName("Object"); }
 
-	physobject() : HP_current(0), HP_max(100), Model() {
-		cout << "The entity took shape of a physical object." << endl;
+	PhysObject() : HP_current(0), HP_max(100) {
 		NameYourself();
 	}
-	~physobject() {
-		cout << "Physical object has been destructed." << endl;
-	}
+	~PhysObject() {}
 };
 
-class hitbox : public physobject {
+class Bullet : public PhysObject {
 public:
-	void SetHit() {
-		SetShader("D:/Google/Resources/Shaders/5/Hit.vert", "D:/Google/Resources/Shaders/5/Hit.frag", nullptr);
+	void NameYourself() { SetName("Bullet"); }
 
-		Model = model("D:/Google/Resources/Model/sphere/sphere.obj");
-		Model.RotateY(90.0f);
-		Model.ScaleAll(2);
-	}
-	void Draw(glm::mat4 View, float Aspect) {
-		Shader::Use(GetShader());
-
-		Shader::SetMat4(GetShader(), "view", View);
-		Shader::SetMat4(GetShader(), "projection", glm::perspective(radians(90.0f), Aspect, 0.1f, 1000.0f));
-
-		Shader::SetMat4(GetShader(), "model", Model.position);
-		Model.DrawOther(GetShader());
-	}
-
-	void NameYourself() {
-		MyNewName("Hitbox");
-		cout << "My name is " << MyName() << "." << endl;
-	}
-
-	hitbox() {
-		NameYourself();	
-	}
-	~hitbox() {}
-};
-class bullet : public physobject {
-public:
-	void NameYourself() {
-		MyNewName("Bullet"); 
-		cout << "My name is " << MyName() << "." << endl;
-	}
-
-	bullet() {
-		NameYourself();	
-	}
-	~bullet() {}
+	Bullet() {}
+	~Bullet() {}
 };

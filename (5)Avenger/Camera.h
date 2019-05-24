@@ -4,20 +4,24 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+using namespace glm;
+
 class Camera {
 public:
-	glm::vec3 Position;
-	glm::vec3 Front;
-	glm::mat4 View;
+	vec3 Position;
+	vec3 Front;
+	mat4 View;
 
-	Camera(glm::vec3 position) {
-		Position = position;
-		float a = glm::radians(180.0f);
-		float b = glm::radians(-90.0f);
-		Front = glm::normalize(glm::vec3(
-				glm::cos(a) * glm::cos(b), 
-				glm::sin(b), 
-				glm::sin(a) * glm::cos(b)));
-		View = glm::lookAt(Position, Position + Front, glm::normalize(glm::cross(glm::normalize(glm::cross(Front, glm::vec3(0, 1, 0))), Front)));
+	Camera(vec3 pos) : Position(pos) {
+		float a = radians(180.0f);
+		float b = radians(-90.0f);
+		Front = normalize(vec3(
+				cos(a) * cos(b), 
+				sin(b), 
+				sin(a) * cos(b)));
+		View = lookAt(
+			Position, 
+			Position + Front, 
+			normalize(cross(normalize(cross(Front, vec3(0, 1, 0))), Front)));
 	}
 };

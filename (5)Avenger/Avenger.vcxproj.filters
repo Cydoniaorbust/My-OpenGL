@@ -44,10 +44,10 @@
     <ClInclude Include="Unit.h">
       <Filter>Файлы заголовков\Object structure</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="Manager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Manager.h">
+    <ClInclude Include="World.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

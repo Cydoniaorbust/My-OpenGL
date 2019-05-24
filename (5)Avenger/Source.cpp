@@ -1,29 +1,28 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include "Source.h"
 
-#include "Game.h"
+constexpr bool Logging = 1;
+Logger logger;
 
+#include "World.h"
 
+GLboolean World::Keys[1024];
 
-GLboolean Game::Keys[1024];
-GLEnvironment Game::Env;
-Camera Game::Cam(vec3(0, 10, 0));
 
 int main(int argc, char * argv[]) {
 	try {
-		Game Avenger(800, 600);
-
-		while (!glfwWindowShouldClose(Avenger.GetWin())) {
-			Avenger.Update();
-
-			Avenger.Draw();
-
-			Avenger.Swap();
+		if (Logging) {
+			logger.write("<<Game initiated.>>\n");
 		}
-		
-		glfwTerminate();
+		World Avenger(800, 600);
+
+		Avenger.Loop();
 	}
 	catch (Error* e) {
-		std::cerr << e->GetData() << std::endl;
+		logger.write(e->GetData());
+		//std::cerr << e->GetData() << std::endl;
 		delete e;
 		glfwTerminate();
 	}

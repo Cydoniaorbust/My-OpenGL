@@ -1,0 +1,32 @@
+Fri May 24 15:48:20 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+ > Unit has been spawned into this world with 100 hitpoints.
+ > My name is Player.
+
+ > Unit has been spawned into this world with 100 hitpoints.
+ > My name is Enemy.
+
+ > Enemy is eliminated.
+ > Unit has been despawned.
+
+ > Player is dead.
+ > Unit has been despawned.
+
+Fri May 24 15:48:25 2019 > <<Log ended>>
+Fri May 24 18:57:19 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+ > Unit has been spawned into this world with 100 hitpoints.
+ > My name is Player.
+
+ > Unit has been spawned into this world with 100 hitpoints.
+ > My name is Enemy.
+
+ > Enemy is eliminated.
+ > Unit has been despawned.
+
+ > Player is dead.
+ > Unit has been despawned.
+
+Fri May 24 18:58:59 2019 > <<Log ended>>

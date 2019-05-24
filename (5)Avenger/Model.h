@@ -6,20 +6,18 @@
 #include <Assimp/scene.h>
 #include <Assimp/postprocess.h>
 
-class model {
-public:
-	vector<Texture> textures_loaded;
-	vector<My::mesh> meshes;
+class Model {
+private:
+	vector<Texture> texs_loaded;
+	vector<My::Mesh> meshes;
 	string dir;
-
+	
 	float Step_Move;
 	float Step_Rotate;
+	
 	mat4 position;
-
-	model() : dir(""), Step_Move(1.0f), Step_Rotate(1.0f) {};
-	model(string const &path) : model() {
-		loadModel(path);
-	}
+public:
+	mat4 GetPosition() { return position; }
 
 	void Draw(GLuint shader) { 
 		for (GLuint i = 0; i < meshes.size(); i++) meshes[i].Draw(shader); 
@@ -53,12 +51,17 @@ public:
 	void RotateZ(float degrees) {
 		position = rotate(position, radians(degrees * Step_Rotate), vec3(0, 0, 1));
 	}
-
+	
+	Model() : dir(), Step_Move(1.0f), Step_Rotate(1.0f) {};
+	Model(string const &path) : Model() {
+		loadModel(path);
+	}
 private:
 	void loadModel(string const &path) {
 		Assimp::Importer importer;
 		
-		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs); //  | aiProcess_GenNormals| aiProcess_CalcTangentSpace );
+		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+		// | aiProcess_GenNormals | aiProcess_CalcTangentSpace);
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 			cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
 			return;
@@ -74,10 +77,10 @@ private:
 		}
 		for (GLuint i = 0; i < node->mNumChildren; i++) processNode(node->mChildren[i], scene);
 	}
-	My::mesh processMesh(aiMesh *mesh, const aiScene *scene) {
+	My::Mesh processMesh(aiMesh *mesh, const aiScene *scene) {
 		vector<Vertex> vertices;
 		vector<GLuint> indices;
-		vector<Texture> textures;
+		vector<Texture> texs;
 
 		for (GLuint i = 0; i < mesh->mNumVertices; i++) {
 			Vertex vertex;
@@ -113,32 +116,36 @@ private:
 		}
 		
 		aiMaterial* mat = scene->mMaterials[mesh->mMaterialIndex];
-		vector<Texture> diffuseMaps = loadMaterialTextures(mat, aiTextureType_DIFFUSE, "texture_diffuse"); textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-		vector<Texture> specularMaps = loadMaterialTextures(mat, aiTextureType_SPECULAR, "texture_specular"); textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-		vector<Texture> normalMaps = loadMaterialTextures(mat, aiTextureType_NORMALS, "texture_normal"); textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-		vector<Texture> heightMaps = loadMaterialTextures(mat, aiTextureType_HEIGHT, "texture_height"); textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-		vector<Texture> opacityMaps = loadMaterialTextures(mat, aiTextureType_OPACITY, "texture_opacity"); textures.insert(textures.end(), opacityMaps.begin(), opacityMaps.end());
 
-		return My::mesh(vertices, indices, textures);
+		vector<Texture> diffuseMaps = loadTexs(mat, aiTextureType_DIFFUSE, "tex_diffuse"); texs.insert(texs.end(), diffuseMaps.begin(), diffuseMaps.end());
+		vector<Texture> specularMaps = loadTexs(mat, aiTextureType_SPECULAR, "tex_specular"); texs.insert(texs.end(), specularMaps.begin(), specularMaps.end());
+		vector<Texture> normalMaps = loadTexs(mat, aiTextureType_NORMALS, "tex_normal"); texs.insert(texs.end(), normalMaps.begin(), normalMaps.end());
+		vector<Texture> heightMaps = loadTexs(mat, aiTextureType_HEIGHT, "tex_height"); texs.insert(texs.end(), heightMaps.begin(), heightMaps.end());
+		vector<Texture> opacityMaps = loadTexs(mat, aiTextureType_OPACITY, "tex_opacity"); texs.insert(texs.end(), opacityMaps.begin(), opacityMaps.end());
+
+		return My::Mesh(vertices, indices, texs);
 	}
-	vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName) {
-		vector<Texture> textures;
+	vector<Texture> loadTexs(aiMaterial *mat, aiTextureType type, const string& typeName) {
+		vector<Texture> texs;
+
 		for (GLuint i = 0; i < mat->GetTextureCount(type); i++) {
 			aiString str;
+
 			mat->GetTexture(type, i, &str);
 			bool skip = false;
-			for (GLuint j = 0; j < textures_loaded.size(); j++)
-				if (strcmp(textures_loaded[j].Path.C_Str(), str.C_Str()) == 0) {
-					textures.push_back(textures_loaded[j]);
+			for (GLuint j = 0; j < texs_loaded.size(); j++)
+				if (strcmp(texs_loaded[j].Path.C_Str(), str.C_Str()) == 0) {
+					texs.push_back(texs_loaded[j]);
 					skip = true;
 					break;
 				}
 			if (!skip) {
-				Texture texture(dir, typeName, str);
-				textures.push_back(texture);
-				textures_loaded.push_back(texture);
+				Texture t(dir, typeName, str);
+				texs.push_back(t);
+				texs_loaded.push_back(t);
 			}
 		}
-		return textures;
+		
+		return texs;
 	}
 };

@@ -2,86 +2,113 @@
 
 #include "PhysObject.h"
 
-class unit : public physobject {
-private:
-	UINT Id;
-	UINT Type;
-	UINT MoveSpeed;
+enum Movement { FORWARD, BACKWARD, LEFT, RIGHT };
 
-	int Att;
-	int Def;
+class Unit : public PhysObject {
+private:
+	//GLuint Id;
+	//GLuint Type;
+	//GLuint MoveSpeed;
+	
+	//int Att;
+	//int Def;
 public:
-	void NameYourself() {
-		MyNewName("Unit");
-	}
-	void SetUnit() {
-		SetShader("D:/Google/Resources/Shaders/5/Obj.vert", "D:/Google/Resources/Shaders/5/Obj.frag", nullptr);
-	}
+	void SetUnit() { SetShader("D:/Google/Resources/Shaders/5/Obj.vert", "D:/Google/Resources/Shaders/5/Obj.frag", nullptr); }
 	bool isDead() {
-		if (MyHP() <= 0) {
+		if (GetHP() <= 0) {
 			delete this;
 			return true;
 		}
 		else return false;
 	}
 
+	void Move(Movement direction, GLfloat delta) {
+		switch (direction) {
+		case FORWARD: {
+			GetModel()->MoveZ(delta);
+			GetHitbox()->MoveForward(delta);
+		} break;
+		case BACKWARD: {
+			GetModel()->MoveZ(-delta);
+			GetHitbox()->MoveBackward(delta);
+		} break;
+		case LEFT: {
+			GetModel()->MoveX(delta);
+			GetHitbox()->MoveLeft(delta);
+		} break;
+		case RIGHT: {
+			GetModel()->MoveX(-delta);
+			GetHitbox()->MoveRight(delta);
+		} break;
+		default: 
+			break;
+		}
+	}
+	/*
 	template <class T> void Attack(T Target) {
 		int Damage = (int)ceil(Att * (1 - 0.06*Target->Def / (1 + 0.06*abs(Target->Def))));
 		
 		Target->AddHP(-Damage);
 
-		cout << MyName() << " inflicted " << Damage << " dmg to " << Target->MyName() << endl;
+		cout << GetName() << " inflicted " << Damage << " dmg to " << Target->GetName() << endl;
 	}
+	*/
+	
+	void NameYourself() { SetName("Unit"); }
 
-	unit() {
-		cout << "The physical object appears to be a unit." << endl;
-		NameYourself();
+	Unit() {
 		AddHP(100);
-		cout << MyName() << " has been spawned into this world with " << MyHP() << " hitpoints." << endl;
+		
+		NameYourself();
+		if (Logging) logger.write(GetName() + " has been spawned into this world with " + to_string(GetHP()) + " hitpoints.");
 	}
-	~unit() {
-		cout << "Unit has been despawned." << endl;
+	~Unit() {
+		if (Logging) logger.write("Unit has been despawned.\n");
 	}
 };
 
-class player : public unit {
+class Player : public Unit {
 public:
 	void SetPlayer() {
 		SetUnit();
 
-		Model = model("D:/Google/Resources/Model/Ship/Ship.obj");
-		Model.RotateY(90.0f);
-		Model.ScaleAll(0.5);
-	}
-		
-	void NameYourself() {
-		MyNewName("Player");
-		cout << "My name is " << MyName() << "." << endl;
-	}
+		SetModel("D:/Google/Resources/Model/Ship/Ship.obj");
+		GetModel()->RotateY(90.0f);
+		GetModel()->ScaleAll(0.5);
 
-	player() {
-		NameYourself();		
+		GetHitbox()->SetSphere(2);		
 	}
-	~player() {}
+	
+	void NameYourself() { SetName("Player"); }
+
+	Player() {
+		NameYourself();	
+		if (Logging) logger.write("My name is " + GetName() + ".\n");
+	}
+	~Player() {
+		if (Logging) logger.write("Player is dead.");
+	}
 };
-class enemy : public unit {
+class Enemy : public Unit {
 public:
-	void SetEnemy() {
+	void SetEnemy(GLfloat size) {
 		SetUnit();
 
-		Model = model("D:/Google/Resources/Model/corovan/Wagons.obj");
-		Model.MoveX(6);
-		Model.RotateY(180.0f);
-		Model.ScaleAll(0.7);
+		SetModel("D:/Google/Resources/Model/corovan/Wagons.obj");
+		GetModel()->MoveX(6);
+		GetModel()->RotateY(-90.0f);
+		GetModel()->ScaleAll(size);
+
+		GetHitbox()->SetBox(size);
 	}
 
-	void NameYourself() {
-		MyNewName("Enemy");
-		cout << "My name is " << MyName() << "." << endl;
-	}
+	void NameYourself() { SetName("Enemy"); }
 
-	enemy() {
-		NameYourself();		
+	Enemy() {
+		NameYourself();
+		if (Logging) logger.write("My name is " + GetName() + ".\n");
 	}
-	~enemy() {}
+	~Enemy() {
+		if (Logging) logger.write("Enemy is eliminated.");
+	}
 };
