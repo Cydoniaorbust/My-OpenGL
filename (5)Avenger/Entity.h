@@ -6,18 +6,41 @@ using std::string;
 
 class Entity {
 private:
-	string Name = "defName";
+	string name = "defName";
 	GLuint shader = 0;
-	Model model;
+	Model* model;
+
+	mat4 position;
+
+	float stepMove = 1.0f;
+	float stepRotate = 1.0f;
 public:
-	string GetName() { return Name; }
-	void SetName(const char* name) { Name = name; }
+	string GetName() { return name; }
+	void SetName(const char* _name) { name = _name; }
 	
 	GLuint GetShader() { return shader; }
-	void SetShader(const char* V, const char* F, const char* G = nullptr) { shader = Shader::CreateProgram(V, F, G); }
+	void SetShader(const char* _V, const char* _F, const char* _G = nullptr) { shader = Shader::CreateProgram(_V, _F, _G); }
 	
-	Model* GetModel() { return &model; }
-	void SetModel(const char* path) { model = Model(path); }
+	Model* GetModel() { return model; }
+	void SetModel(Model* _model) { model = _model; }
+
+	mat4 GetPosition() { return position; }
+	#pragma region Movements	
+	void MoveX(GLfloat _delta) { position = translate(position, vec3(_delta * stepMove, 0, 0)); }
+	void MoveY(GLfloat _delta) { position = translate(position, vec3(0, _delta * stepMove, 0)); }
+	void MoveZ(GLfloat _delta) { position = translate(position, vec3(0, 0, _delta * stepMove)); }
+	void SetPos(GLfloat _x, GLfloat _y) { position[3][0] = _x; position[3][2] = _y; }
+
+	void ScaleAll(GLfloat _delta) {
+		position = scale(position, vec3(_delta));
+		stepMove = 5 / _delta;
+		stepRotate = 100;
+	}
+
+	void RotateX(GLfloat _degrees) { position = rotate(position, radians(_degrees * stepRotate), vec3(1, 0, 0)); }
+	void RotateY(GLfloat _degrees) { position = rotate(position, radians(_degrees * stepRotate), vec3(0, 1, 0)); }
+	void RotateZ(GLfloat _degrees) { position = rotate(position, radians(_degrees * stepRotate), vec3(0, 0, 1)); }
+	#pragma endregion
 
 	virtual void NameYourself() = 0;
 
@@ -25,12 +48,12 @@ public:
 	virtual ~Entity() { glDeleteProgram(GetShader()); }
 };
 
-class Background : private Entity {
+class Background : public Entity {
 private:
 	GLuint vao = 1;
 	Texture tex = Texture();
 public:
-	void SetVAO(const GLfloat* vertices, int vert_size, const GLuint* indices, int ind_size) {
+	void SetVAO(const GLfloat* _vertices, int _vertSize, const GLuint* _indices, int _indSize) {
 		glGenVertexArrays(1, &vao);
 		GLuint vbo, ebo;
 		glGenBuffers(1, &vbo);
@@ -39,8 +62,8 @@ public:
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glBufferData(GL_ARRAY_BUFFER, vert_size * sizeof(vertices), vertices, GL_STATIC_DRAW);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, ind_size * sizeof(indices), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, _vertSize * sizeof(_vertices), _vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indSize * sizeof(_indices), _indices, GL_STATIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
 		glEnableVertexAttribArray(0);
@@ -55,22 +78,22 @@ public:
 		glDeleteBuffers(1, &ebo);
 	}
 	void SetBack() {
-		GLfloat Background[] = {
+		GLfloat background[] = {
 			10, 0, 10, 1, 1,
 			10, 0,-10, 1, 0,
 			-10, 0,-10, 0, 0,
 			-10, 0, 10, 0, 1
 		};
-		GLuint Indices[] = { 0, 1, 3, 1, 2, 3 };
+		GLuint indices[] = { 0, 1, 3, 1, 2, 3 };
 
-		SetVAO(Background, 20, Indices, 6);
+		SetVAO(background, 20, indices, 6);
 		SetShader("D:/Google/Resources/Shaders/5/Back.vert", "D:/Google/Resources/Shaders/5/Back.frag", nullptr);
 		tex.LoadFromFile("D:/Google/Resources/Tex/Back.jpg");
 	}
-	void Draw(const mat4& View, float Aspect) {
+	void Draw(const mat4& _view, float _aspect) {
 		Shader::Use(GetShader());
-		Shader::SetMat4(GetShader(), "view", View);
-		Shader::SetMat4(GetShader(), "projection", glm::perspective(radians(90.0f), Aspect, 0.1f, 1000.0f));
+		Shader::SetMat4(GetShader(), "view", _view);
+		Shader::SetMat4(GetShader(), "projection", glm::perspective(radians(90.0f), _aspect, 0.1f, 1000.0f));
 		Shader::SetFloat(GetShader(), "time", glfwGetTime() * 0.1f);
 		glActiveTexture(GL_TEXTURE0 + 1);
 		Shader::SetInt(GetShader(), "Texture", 1);
@@ -84,79 +107,57 @@ public:
 	void NameYourself() { SetName("Background image"); }
 	
 	Background() { NameYourself(); }
-	~Background() {
-		glDeleteTextures(1, &tex.Id);		
-		glDeleteVertexArrays(1, &vao);
-	}
+	~Background() { glDeleteVertexArrays(1, &vao); }
 };
-class Hitbox : private Entity {
+class Hitbox : public Entity {
 private:
-	GLfloat Radius = 0;
+	GLfloat radius = 0;
 	
-	Model CollisionModel;
+	Model* collisionModel; //model, representing the "collisioned" state (red one)
 public:
-	GLfloat GetRadius() { return Radius; }
-	mat4 GetPosition() { return GetModel()->GetPosition(); }
+	GLfloat GetRadius() { return radius; }	
 
-	void SetBox(GLfloat radius) {
+	void SetBox(GLfloat _radius, Model* _model, Model* _model_c) {
+		SetShader("D:/Google/Resources/Shaders/5/Hit.vert", "D:/Google/Resources/Shaders/5/Hit.frag", nullptr);
+		
+		SetModel(_model);
+		collisionModel = _model_c;
+		
+		MoveX(6);
+		RotateY(90.0f);
+		ScaleAll(_radius);
+		
+		radius = _radius;
+	}
+	void SetSphere(GLfloat _radius, Model* _model, Model* _model_c) {
 		SetShader("D:/Google/Resources/Shaders/5/Hit.vert", "D:/Google/Resources/Shaders/5/Hit.frag", nullptr);
 
-		SetModel("D:/Google/Resources/Model/box/box.obj");
-		GetModel()->MoveX(6);
-		GetModel()->RotateY(-90.0f);
-		GetModel()->ScaleAll(radius);
+		SetModel(_model);
+		collisionModel = _model_c;
+		
+		RotateY(90.0f);
+		ScaleAll(_radius);
 
-		CollisionModel = Model("D:/Google/Resources/Model/box/box_c.obj");
-		CollisionModel.MoveX(6);
-		CollisionModel.RotateY(-90.0f);
-		CollisionModel.ScaleAll(radius);
-
-		Radius = radius;
+		radius = _radius;
 	}
-	void SetSphere(GLfloat radius) {
-		SetShader("D:/Google/Resources/Shaders/5/Hit.vert", "D:/Google/Resources/Shaders/5/Hit.frag", nullptr);
+	void Draw(const mat4& _view, float _aspect, bool _collision) {
+		if (DrawHits) {
+			Shader::Use(GetShader());
 
-		SetModel("D:/Google/Resources/Model/sphere/sphere.obj");
-		GetModel()->RotateY(90.0f);
-		GetModel()->ScaleAll(radius);
-
-		CollisionModel = Model("D:/Google/Resources/Model/sphere/sphere_c.obj");
-		CollisionModel.RotateY(90.0f);
-		CollisionModel.ScaleAll(radius);
-
-		Radius = radius;
-	}
-	void Draw(const mat4& View, float Aspect, bool collision) {
-		Shader::Use(GetShader());
-
-		Shader::SetMat4(GetShader(), "view", View);
-		Shader::SetMat4(GetShader(), "projection", glm::perspective(radians(90.0f), Aspect, 0.1f, 1000.0f));
-
-		if (collision) {
-			Shader::SetMat4(GetShader(), "model", CollisionModel.GetPosition());
-			CollisionModel.DrawOther(GetShader());
-		}
-		else {
+			Shader::SetMat4(GetShader(), "view", _view);
+			Shader::SetMat4(GetShader(), "projection", glm::perspective(radians(90.0f), _aspect, 0.1f, 1000.0f));
 			Shader::SetMat4(GetShader(), "model", GetPosition());
-			GetModel()->DrawOther(GetShader());
+
+			if (_collision) collisionModel->DrawOther(GetShader());
+			else GetModel()->DrawOther(GetShader());
 		}
 	}
 
-	void MoveForward(GLfloat delta) {
-		GetModel()->MoveZ(delta);
-		CollisionModel.MoveZ(delta);
-	}
-	void MoveBackward(GLfloat delta) {
-		GetModel()->MoveZ(-delta);
-		CollisionModel.MoveZ(-delta);
-	}
-	void MoveRight(GLfloat delta) {
-		GetModel()->MoveX(-delta);
-		CollisionModel.MoveX(-delta);
-	}
-	void MoveLeft(GLfloat delta) {
-		GetModel()->MoveX(delta);
-		CollisionModel.MoveX(delta);
+	bool OutOfBounds() {
+		bool x = GetPosition()[3][0] < 10 && GetPosition()[3][0] > -10;
+		bool y = GetPosition()[3][2] < 10 && GetPosition()[3][2] > -10;
+		if (x && y) return false;
+		else return true;
 	}
 
 	void NameYourself() { SetName("Hitbox"); }

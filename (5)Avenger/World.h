@@ -5,49 +5,53 @@
 
 #include <math.h>
 
-#define HERO Data.Hero
-#define ENEMY Data.Foe
+#define HERO data.hero
+#define ENEMY data.foe
+#define BULLET data.shots
 
 class World {
 public:
-	static GLboolean Keys[1024];
-	GLEnvironment Env;
-	manager Data;
-	Camera Cam;
+	static GLboolean keys[1024];
+	GLEnvironment env;
+	Manager data;
+	Camera cam;
 	
-	GLfloat Width;
-	GLfloat Height;
-	GLfloat Aspect;
+	GLfloat width;
+	GLfloat height;
+	GLfloat aspect;
 
-	GLfloat Delta = 0;
-	GLuint FramesNumber = 0;
-	GLfloat FramesTotalTime = 0;
-		
+	GLfloat delta = 0;
+	GLuint framesNumber = 0;
+	GLfloat framesTotalTime = 0;
+	
+	void ConsoleInfo() {
+		system("cls");
+
+		std::cout << framesNumber / FPSUpdateRate << " fps\n";
+		std::cout << "Delta: " << delta << std::endl;
+		std::cout << "Shots active: " << data.CountShots() << std::endl;
+		std::cout << std::fixed << std::setprecision(0) << "Player pos: ["
+			<< HERO.GetHitbox()->GetPosition()[3][0] << "]:["
+			<< HERO.GetHitbox()->GetPosition()[3][2] << "]\n";
+	}
 	void FrameCounter() {
-		FramesNumber++;
-		FramesTotalTime += Delta;
-		if (FramesTotalTime >= 1.0) {
-			system("cls");
+		if (framesTotalTime >= FPSUpdateRate) {
+			ConsoleInfo();
 			
-			std::cout << FramesNumber << " fps\n";
-			
-			std::cout << std::fixed << std::setprecision(0) << "["
-				<< Cam.Position.x << "]:["
-				<< Cam.Position.y << "]:["
-				<< Cam.Position.z << "]" << std::endl;
-			
-			FramesNumber = 0;
-			FramesTotalTime -= 1.0;
+			ReleaseInputLock = true;
+			framesNumber = 0;
+			framesTotalTime -= FPSUpdateRate;
 		}
 	}
 	void ProcessInput() {
-		if (Keys[GLFW_KEY_E]) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		if (Keys[GLFW_KEY_R]) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		if (keys[GLFW_KEY_E]) glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		if (keys[GLFW_KEY_R]) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		if (keys[GLFW_KEY_T]) if (DrawHits) DrawHits = 0; else DrawHits = 1;
 
-		if (Keys[GLFW_KEY_W]) {
-			HERO.Move(FORWARD, Delta);
-			if (manager::CollisionBetween(HERO.GetHitbox(), ENEMY.GetHitbox())) {
-				//HERO.Move(BACKWARD, Delta);
+		if (keys[GLFW_KEY_W]) {
+			HERO.Move(FORWARD, delta);
+			if (Manager::CollisionBetween(HERO.GetHitbox(), ENEMY.GetHitbox())) {
+				HERO.Move(BACKWARD, delta);
 				HERO.Collide();
 				ENEMY.Collide();
 			}
@@ -56,10 +60,10 @@ public:
 				ENEMY.UnCollide();
 			}
 		}
-		if (Keys[GLFW_KEY_S]) {
-			HERO.Move(BACKWARD, Delta);
-			if (manager::CollisionBetween(HERO.GetHitbox(), ENEMY.GetHitbox())) {
-				//HERO.Move(FORWARD, Delta);
+		if (keys[GLFW_KEY_S]) {
+			HERO.Move(BACKWARD, delta);
+			if (Manager::CollisionBetween(HERO.GetHitbox(), ENEMY.GetHitbox())) {
+				HERO.Move(FORWARD, delta);
 				HERO.Collide();
 				ENEMY.Collide();
 			}
@@ -68,10 +72,10 @@ public:
 				ENEMY.UnCollide();
 			}
 		}
-		if (Keys[GLFW_KEY_A]) {
-			HERO.Move(LEFT, Delta);
-			if (manager::CollisionBetween(HERO.GetHitbox(), ENEMY.GetHitbox())) {
-				//HERO.Move(RIGHT, Delta);
+		if (keys[GLFW_KEY_A]) {
+			HERO.Move(LEFT, delta);
+			if (Manager::CollisionBetween(HERO.GetHitbox(), ENEMY.GetHitbox())) {
+				HERO.Move(RIGHT, delta);
 				HERO.Collide();
 				ENEMY.Collide();
 			}
@@ -80,10 +84,10 @@ public:
 				ENEMY.UnCollide();
 			}
 		}
-		if (Keys[GLFW_KEY_D]) {
-			HERO.Move(RIGHT, Delta);
-			if (manager::CollisionBetween(HERO.GetHitbox(), ENEMY.GetHitbox())) {
-				//HERO.Move(LEFT, Delta);
+		if (keys[GLFW_KEY_D]) {
+			HERO.Move(RIGHT, delta);
+			if (Manager::CollisionBetween(HERO.GetHitbox(), ENEMY.GetHitbox())) {
+				HERO.Move(LEFT, delta);
 				HERO.Collide();
 				ENEMY.Collide();
 			}
@@ -93,27 +97,38 @@ public:
 			}
 		}
 
-		if (Keys[GLFW_MOUSE_BUTTON_1]) {
-			if (Data.shots.size() < 100) {
-				std::cout << "Another one\n";
-				Data.shots.push_back(Bullet());
-			}
-			else std::cout << "Enough\n";
-			//check if buffer is full
-				//create Bullet
-				//set timer
-				//send Bullet
-				//check collisions
-				//delete Bullet
+		if (keys[GLFW_MOUSE_BUTTON_1]) {
+			if(ReleaseInputLock)
+				for (int i = 0; i < BULLET.size(); i++) {
+					if (!BULLET[i].GetState()) {
+						float x = HERO.GetHitbox()->GetPosition()[3][0];
+						float y = HERO.GetHitbox()->GetPosition()[3][2];
+						BULLET[i].Activate(x, y);
+						ReleaseInputLock = false;
+						break;
+					}
+				}
 		}
-	}	
+	}
 	void MoveBullets() {
-		for (int i = 0; i < 100; i++) { if (Data.shots[i] != nullptr) Data.shots[i].Collide(); }
-		//for (auto iter : Data.shots) {}//330 95 
+		for (int i = 0; i < BULLET.size(); i++) {
+			if (BULLET[i].GetState()) { 
+				BULLET[i].Move(FORWARD, delta * 4); 
+				if (Manager::CollisionBetween(BULLET[i].GetHitbox(), ENEMY.GetHitbox())) {
+					//BULLET[i].Deactivate();
+					ENEMY.Collide();
+				}
+				else ENEMY.UnCollide();
+				if (BULLET[i].GetHitbox()->OutOfBounds()) BULLET[i].Deactivate();
+			}
+		} 
 	}
 
 	void Update() {
-		Delta = Env.UpdateDelta();
+		delta = env.UpdateDelta();
+		framesNumber++;
+		framesTotalTime += delta;
+
 		FrameCounter();
 
 		glfwPollEvents();
@@ -124,15 +139,17 @@ public:
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	void Draw() {
-		HERO.Draw(Cam.Position, Cam.View, Aspect);
-		ENEMY.Draw(Cam.Position, Cam.View, Aspect);
-		Data.BImage.Draw(Cam.View, Aspect);
+		HERO.Draw(cam.Position, cam.View, aspect);
+		ENEMY.Draw(cam.Position, cam.View, aspect);
+		data.backImage.Draw(cam.View, aspect);
+		for (int i = 0; i < BULLET.size(); i++)
+			if (BULLET[i].GetState()) BULLET[i].Draw(cam.Position, cam.View, aspect);
 
-		Env.Swap();
+		env.Swap();
 	}
 
 	void Loop() {
-		while (!glfwWindowShouldClose(Env.GetWin())) {
+		while (!glfwWindowShouldClose(env.GetWin())) {
 			Update();
 			Draw();
 		}
@@ -140,35 +157,42 @@ public:
 		glfwTerminate();
 	}
 
-	static void CallbackFramebufferSize(GLFWwindow* Win, int width, int height) { glViewport(0, 0, width, height); }
-	static void CallbackMouseButton(GLFWwindow* Win, int button, int action, int mods) {
-		if (button >= 0 && button < 10)
-			if (action == GLFW_PRESS) Keys[button] = true;
-			else
-				if (action == GLFW_RELEASE) Keys[button] = false;
+	static void CallbackFramebufferSize(GLFWwindow* _win, int _width, int _height) { 
+		glViewport(0, 0, _width, _height); 
 	}
-	static void CallbackKey(GLFWwindow* Win, int key, int scancode, int action, int mode) {
-		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)	glfwSetWindowShouldClose(Win, GL_TRUE);
-		if (key >= 30 && key < 350)
-			if (action == GLFW_PRESS) Keys[key] = true;
+	static void CallbackMouseButton(GLFWwindow* _win, int _button, int _action, int _mods) {
+		if (_button >= 0 && _button < 10)
+			if (_action == GLFW_PRESS) keys[_button] = true;
 			else
-				if (action == GLFW_RELEASE) Keys[key] = false;
+				if (_action == GLFW_RELEASE) keys[_button] = false;
+	}
+	static void CallbackKey(GLFWwindow* _win, int _key, int _scancode, int _action, int _mode) {
+		/*
+		int state = glfwGetKey(env.GetWin(), GLFW_KEY_E);
+		if (state == GLFW_PRESS)
+			activate_airship();
+		*/
+
+		if (_key == GLFW_KEY_ESCAPE && _action == GLFW_PRESS)
+			glfwSetWindowShouldClose(_win, GL_TRUE);
+		if (_key >= 30 && _key < 350)
+			if (_action == GLFW_PRESS) keys[_key] = true;
+			else
+				if (_action == GLFW_RELEASE) keys[_key] = false;
 	}
 
-	World() : Cam(vec3(0, 10, 0)) {}
-	World(GLfloat width, GLfloat height) : World() {
-		Width = width;
-		Height = height;
-		Aspect = Width / Height;
+	World() : cam(vec3(0, 10, 0)) {}
+	World(GLfloat _width, GLfloat _height) : World() {
+		width = _width;
+		height = _height;
+		aspect = width / height;
 
-		Env.InitWin(width, height, "OpenGL");
-		Env.CallbackSet(CallbackFramebufferSize, CallbackMouseButton, CallbackKey, nullptr, nullptr);
-		Env.InitGLAD();
-		Env.ApplyTests();
+		env.InitWin(_width, _height, "OpenGL");
+		env.CallbackSet(CallbackFramebufferSize, CallbackMouseButton, CallbackKey, nullptr, nullptr);
+		env.InitGLAD();
+		env.ApplyTests();
 
-		Data.BImage.SetBack();
-		HERO.SetPlayer();
-		ENEMY.SetEnemy(0.7);
+		data.SetData();
 	}
 
 	World(const World &) = delete;
@@ -176,4 +200,3 @@ public:
 	World(World &&) = delete;
 	World& operator=(World &&) = delete;
 };
-

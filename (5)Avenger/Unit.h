@@ -2,19 +2,13 @@
 
 #include "PhysObject.h"
 
-enum Movement { FORWARD, BACKWARD, LEFT, RIGHT };
-
 class Unit : public PhysObject {
-private:
-	//GLuint Id;
-	//GLuint Type;
-	//GLuint MoveSpeed;
-	
-	//int Att;
-	//int Def;
 public:
-	void SetUnit() { SetShader("D:/Google/Resources/Shaders/5/Obj.vert", "D:/Google/Resources/Shaders/5/Obj.frag", nullptr); }
-	bool isDead() {
+	void SetUnit() {
+		SetObject();
+		AddHP(100);
+	}
+	bool IsDead() {
 		if (GetHP() <= 0) {
 			delete this;
 			return true;
@@ -22,93 +16,44 @@ public:
 		else return false;
 	}
 
-	void Move(Movement direction, GLfloat delta) {
-		switch (direction) {
-		case FORWARD: {
-			GetModel()->MoveZ(delta);
-			GetHitbox()->MoveForward(delta);
-		} break;
-		case BACKWARD: {
-			GetModel()->MoveZ(-delta);
-			GetHitbox()->MoveBackward(delta);
-		} break;
-		case LEFT: {
-			GetModel()->MoveX(delta);
-			GetHitbox()->MoveLeft(delta);
-		} break;
-		case RIGHT: {
-			GetModel()->MoveX(-delta);
-			GetHitbox()->MoveRight(delta);
-		} break;
-		default: 
-			break;
-		}
-	}
-	/*
-	template <class T> void Attack(T Target) {
-		int Damage = (int)ceil(Att * (1 - 0.06*Target->Def / (1 + 0.06*abs(Target->Def))));
-		
-		Target->AddHP(-Damage);
-
-		cout << GetName() << " inflicted " << Damage << " dmg to " << Target->GetName() << endl;
-	}
-	*/
-	
 	void NameYourself() { SetName("Unit"); }
 
-	Unit() {
-		AddHP(100);
-		
-		NameYourself();
-		if (Logging) logger.write(GetName() + " has been spawned into this world with " + to_string(GetHP()) + " hitpoints.");
-	}
-	~Unit() {
-		if (Logging) logger.write("Unit has been despawned.\n");
-	}
+	Unit() { NameYourself(); }
+	~Unit() {}
 };
 
 class Player : public Unit {
 public:
-	void SetPlayer() {
+	void SetPlayer(Model* _model, Model* _model_h, Model* _model_h_c) {
 		SetUnit();
 
-		SetModel("D:/Google/Resources/Model/Ship/Ship.obj");
-		GetModel()->RotateY(90.0f);
-		GetModel()->ScaleAll(0.5);
+		SetModel(_model);
+		RotateY(90.0f);
+		ScaleAll(0.5);
 
-		GetHitbox()->SetSphere(2);		
+		GetHitbox()->SetSphere(2, _model_h, _model_h_c);
 	}
 	
 	void NameYourself() { SetName("Player"); }
 
-	Player() {
-		NameYourself();	
-		if (Logging) logger.write("My name is " + GetName() + ".\n");
-	}
-	~Player() {
-		if (Logging) logger.write("Player is dead.");
-	}
+	Player() { NameYourself(); }
+	~Player() {}
 };
 class Enemy : public Unit {
 public:
-	void SetEnemy(GLfloat size) {
+	void SetEnemy(GLfloat size, Model* _model, Model* _model_h, Model* _model_h_c) {
 		SetUnit();
 
-		SetModel("D:/Google/Resources/Model/corovan/Wagons.obj");
-		GetModel()->MoveX(6);
-		GetModel()->RotateY(-90.0f);
-		GetModel()->ScaleAll(size);
+		SetModel(_model);
+		MoveX(6);
+		RotateY(-90.0f);
+		ScaleAll(size);
 
-		GetHitbox()->SetBox(size);
+		GetHitbox()->SetBox(size, _model_h, _model_h_c);
 	}
 
 	void NameYourself() { SetName("Enemy"); }
 
-	Enemy() {
-		NameYourself();
-		if (Logging) logger.write("My name is " + GetName() + ".\n");
-	}
-	~Enemy() {
-		if (Logging) logger.write("Enemy is eliminated.");
-	}
+	Enemy() { NameYourself(); }
+	~Enemy() {}
 };

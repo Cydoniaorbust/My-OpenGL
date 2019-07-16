@@ -8,60 +8,19 @@
 
 class Model {
 private:
-	vector<Texture> texs_loaded;
 	vector<My::Mesh> meshes;
-	string dir;
-	
-	float Step_Move;
-	float Step_Rotate;
-	
-	mat4 position;
+	string dir;	
 public:
-	mat4 GetPosition() { return position; }
+	void Draw(GLuint shader) { for (GLuint i = 0; i < meshes.size(); i++) meshes[i].Draw(shader); }
+	void DrawOther(GLuint shader) { for (GLuint i = 0; i < meshes.size(); i++) meshes[i].DrawOther(shader); }
 
-	void Draw(GLuint shader) { 
-		for (GLuint i = 0; i < meshes.size(); i++) meshes[i].Draw(shader); 
-	}
-	void DrawOther(GLuint shader) {
-		for (GLuint i = 0; i < meshes.size(); i++) meshes[i].DrawOther(shader);
-	}
-	
-	void MoveX(float delta) {
-		position = translate(position, vec3(delta * Step_Move, 0, 0));
-	}
-	void MoveY(float delta) {
-		position = translate(position, vec3(0, delta * Step_Move, 0));
-	}
-	void MoveZ(float delta) {
-		position = translate(position, vec3(0, 0, delta * Step_Move));
-	}
-	
-	void ScaleAll(float delta) {
-		position = scale(position, vec3(delta));
-		Step_Move = 5 / delta;
-		Step_Rotate = 100;
-	}
-
-	void RotateX(float degrees) { 
-		position = rotate(position, radians(degrees * Step_Rotate), vec3(1, 0, 0));
-	}
-	void RotateY(float degrees) {
-		position = rotate(position, radians(degrees * Step_Rotate), vec3(0, 1, 0));
-	}
-	void RotateZ(float degrees) {
-		position = rotate(position, radians(degrees * Step_Rotate), vec3(0, 0, 1));
-	}
-	
-	Model() : dir(), Step_Move(1.0f), Step_Rotate(1.0f) {};
-	Model(string const &path) : Model() {
-		loadModel(path);
-	}
+	Model() {};
+	Model(string const &path) { loadModel(path); }
 private:
 	void loadModel(string const &path) {
 		Assimp::Importer importer;
 		
-		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
-		// | aiProcess_GenNormals | aiProcess_CalcTangentSpace);
+		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs); // | aiProcess_GenNormals | aiProcess_CalcTangentSpace);
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 			cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
 			return;
@@ -132,18 +91,7 @@ private:
 			aiString str;
 
 			mat->GetTexture(type, i, &str);
-			bool skip = false;
-			for (GLuint j = 0; j < texs_loaded.size(); j++)
-				if (strcmp(texs_loaded[j].Path.C_Str(), str.C_Str()) == 0) {
-					texs.push_back(texs_loaded[j]);
-					skip = true;
-					break;
-				}
-			if (!skip) {
-				Texture t(dir, typeName, str);
-				texs.push_back(t);
-				texs_loaded.push_back(t);
-			}
+			texs.push_back(Texture(dir +'/'+ str.C_Str(), typeName));
 		}
 		
 		return texs;

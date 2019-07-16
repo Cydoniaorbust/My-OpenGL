@@ -1,29 +1,25 @@
-// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-
 #include "Source.h"
 
-constexpr bool Logging = 1;
-Logger logger;
+bool DrawHits = true;
+bool ReleaseInputLock = true;
+GLfloat FPSUpdateRate = 0.5;
 
 #include "World.h"
 
-GLboolean World::Keys[1024];
-
+GLboolean World::keys[1024];
 
 int main(int argc, char * argv[]) {
-	try {
-		if (Logging) {
-			logger.write("<<Game initiated.>>\n");
-		}
-		World Avenger(800, 600);
+	Logger logger;
 
-		Avenger.Loop();
+	try {
+		logger.Write("<<Game initiated.>>\n");
+		World avenger(800, 800);
+
+		avenger.Loop();
 	}
-	catch (Error* e) {
-		logger.write(e->GetData());
-		//std::cerr << e->GetData() << std::endl;
-		delete e;
+	catch (Error* _e) {
+		logger.Write(_e->GetData());
+		delete _e;
 		glfwTerminate();
 	}
 

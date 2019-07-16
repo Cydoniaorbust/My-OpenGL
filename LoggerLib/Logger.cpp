@@ -1,26 +1,7 @@
 #include "stdafx.h"
 #include "Logger.h"
 
-bool Logger::openStream(){
-	_outputStream.open(_fileName, std::ios::out | std::ios::app);
-	
-	getCurrentDateTime();
-	_outputStream << timebuf << " > <<Log started>>" << "\n";
-	delete timebuf;
-	
-	return _outputStream.is_open();
-}
-void Logger::closeStream() { 
-	getCurrentDateTime();
-	_outputStream << timebuf << " > <<Log ended>>" << "\n";
-	delete timebuf;
-
-	_outputStream.close();
-}
-void Logger::write(char* record) { _outputStream << " > " << record << "\n"; }
-void Logger::write(const char* record) { _outputStream << " > " << record << "\n"; }
-void Logger::write(std::string record) { _outputStream << " > " << record << "\n"; }
-void Logger::getCurrentDateTime(){
+void Logger::GetCurrentDateTime(){
 	struct tm newtime;
 	__time64_t long_time;
 	timebuf = new char[80];
@@ -30,6 +11,27 @@ void Logger::getCurrentDateTime(){
 	strftime(timebuf, 80, "%c", &newtime);
 }
 
-Logger::Logger() : _fileName("log.txt") { openStream(); }
-Logger::Logger(char* fileName) : _fileName(fileName) { openStream(); }
-Logger::~Logger() { closeStream(); }
+bool Logger::OpenStream(){
+	outputStream.open(fileName, std::ios::out | std::ios::app);
+	
+	GetCurrentDateTime();
+	outputStream << timebuf << " > <<Log started>>" << "\n";
+	delete timebuf;
+	
+	return outputStream.is_open();
+}
+void Logger::CloseStream() { 
+	GetCurrentDateTime();
+	outputStream << timebuf << " > <<Log ended>>" << "\n";
+	delete timebuf;
+
+	outputStream.close();
+}
+
+void Logger::Write(char* _record) { outputStream << " > " << _record << "\n"; }
+void Logger::Write(const char* _record) { outputStream << " > " << _record << "\n"; }
+void Logger::Write(std::string _record) { outputStream << " > " << _record << "\n"; }
+
+Logger::Logger() : fileName("log.txt") { OpenStream(); }
+Logger::Logger(char* _fileName) : fileName(_fileName) { OpenStream(); }
+Logger::~Logger() { CloseStream(); }
