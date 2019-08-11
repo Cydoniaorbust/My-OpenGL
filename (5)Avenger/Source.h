@@ -1,21 +1,21 @@
 #pragma once
 
 #pragma comment (lib, "opengl32.lib")
-#pragma comment (lib, "Glfw/Win64/lib-vc2015/glfw3.lib")
+#pragma comment (lib, "GlfwX64/lib-vc2015/glfw3.lib")
 #pragma comment (lib, "Assimp/x64/assimp-vc140-mt.lib")
 
 #ifdef _DEBUG
-	#pragma comment (lib, "Glad/Debug.lib")
+	#pragma comment (lib, "GladDebugX64/GladDebugX64.lib")
 	#pragma comment (lib, "ModelLib/Debug_x64.lib")
 	#pragma comment (lib, "EnvLib/Debug_x64.lib")
 #else
-	#pragma comment (lib, "Glad/Release.lib")	
+	#pragma comment (lib, "GladReleaseX64/GladReleaseX64.lib")	
 	#pragma comment (lib, "ModelLib/Release_x64.lib")
 	#pragma comment (lib, "EnvLib/Release_x64.lib")
 #endif
 
-#include <GLEnvironment.h>
-#include <Model.h>
+#include <EnvLib/GLEnvironment.h>
+#include <ModelLib/Model.h>
 
 #include "Manager.h"
 
