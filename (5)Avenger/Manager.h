@@ -19,8 +19,12 @@ public:
 	Player hero;
 	Enemy foe;
 
-	Model* GetModel(std::string _name) { return &models[_name]; }
-	void SetModel(std::string _name, std::string _path) { models[_name] = Model(_path); }
+	Model* GetModel(std::string _name) { 
+		return &models[_name];
+	}
+	void SetModel(std::string _name, std::string _path) {
+		models[_name] = Model(_path); 
+	}
 
 	int CountShots() {
 		activeShots = 0;
@@ -57,7 +61,9 @@ public:
 		for (int i = 0; i < 100; i++) shots[i].SetBullet(&models["bullet"], &models["sphere"], &models["sphere_c"]);
 	}
 
-	static GLfloat Sqr(GLfloat _x) { return _x * _x; }
+	static GLfloat Sqr(GLfloat _x) {
+		return _x * _x; 
+	}
 	static GLfloat CountDistance(const glm::mat4& _first, const glm::mat4& _second) {
 		return sqrt(Sqr(_second[3][0] - _first[3][0]) + Sqr(_second[3][2] - _first[3][2]));
 	}
@@ -69,7 +75,18 @@ public:
 		if (CountDistance(x, y) < DistBetween) return true;
 		else return false;
 	}
-	
+	void Draw(glm::vec3 _pos, glm::mat4 _view, GLfloat _aspect, bool _drawHits) {
+		glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		hero.Draw(_pos, _view, _aspect, _drawHits);
+		foe.Draw(_pos, _view, _aspect, _drawHits);
+		backImage.Draw(_view, _aspect);
+		for (int i = 0; i < shots.size(); i++)
+			if (shots[i].GetState())
+				shots[i].Draw(_pos, _view, _aspect, _drawHits);
+	}
+
 	Manager() {}
 	~Manager() {}
 

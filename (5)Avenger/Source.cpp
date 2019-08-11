@@ -8,12 +8,14 @@ Camera cam;
 void ConsoleInfo() {
 	system("cls");
 
+	std::cout << std::fixed << std::setprecision(4);
 	std::cout << "Ticks since system started: " << GetTickCount() << std::endl;
-	std::cout << std::fixed << std::setprecision(2) << "TPS: " << env.CountTPS() << std::endl;
-	std::cout << std::fixed << std::setprecision(2) << "FPS: " << env.CountFPS() << std::endl;
-	std::cout << std::fixed << std::setprecision(4) << "Delta (time between updates): " << env.delta << std::endl;
+	std::cout << "TPS: " << env.CountTPS() << std::endl;
+	std::cout << "FPS: " << env.CountFPS() << std::endl;
+	std::cout << "Delta (time between updates): " << env.delta << std::endl;
 	std::cout << "Shots active: " << manager.CountShots() << std::endl;
-	std::cout << "Player pos: [" << manager.hero.GetHitbox()->GetPosition()[3][0] << "]:["
+	std::cout << "Player pos: [" 
+		<< manager.hero.GetHitbox()->GetPosition()[3][0] << "]:["
 		<< manager.hero.GetHitbox()->GetPosition()[3][2] << "]\n";
 }
 void Update() {
