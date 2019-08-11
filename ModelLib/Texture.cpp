@@ -1,10 +1,7 @@
-#include "stdafx.h"
 #include "Texture.h"
 
-#ifndef STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
-#endif
 
 void Texture::Bind() { glBindTexture(GL_TEXTURE_2D, Id); }
 void Texture::Unbind() { glBindTexture(GL_TEXTURE_2D, 0); }

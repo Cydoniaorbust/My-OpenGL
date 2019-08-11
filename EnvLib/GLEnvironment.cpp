@@ -1,46 +1,62 @@
-#include "stdafx.h"
 #include "GLEnvironment.h"
 
-GLEnvironment::GLEnvironment() : Width(0), Height(0), LastX(0), LastY(0) {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+GLFWwindow* GLEnvironment::GetWin() const noexcept { return win; }
 
-	QueryPerformanceFrequency(&Frequency);
-	QueryPerformanceCounter(&TimeCurrent);
+GLfloat GLEnvironment::MouseX(double _xpos) {
+	GLfloat xoffset = _xpos - lastX;
+	lastX = _xpos;
+	return xoffset;
 }
-GLEnvironment::~GLEnvironment() {}
-
-GLFWwindow* GLEnvironment::GetWin() const noexcept { return Win; }
-int GLEnvironment::GetWidth() const noexcept { return Width; }
-int GLEnvironment::GetHeight() const noexcept { return Height; }
-
-void GLEnvironment::InitWin(int w, int h, const char* name) {
-	Width = w;
-	Height = h;
-	LastX = Width / 2.;
-	LastY = Height / 2.;
-
-	Win = glfwCreateWindow(Width, Height, name, nullptr, nullptr);
-	if (!Win) throw new Error("GLFW window is not initialized!\n");
-	glfwMakeContextCurrent(Win);
+GLfloat GLEnvironment::MouseY(double _ypos) {
+	GLfloat yoffset = lastY - _ypos;  // Reversed since y-coordinates go from bottom to left
+	lastY = _ypos;
+	return yoffset;
 }
-void GLEnvironment::CallbackSet(
-	GLFWframebuffersizefun buffer,
-	GLFWmousebuttonfun button, 
-	GLFWkeyfun key, 
-	GLFWcursorposfun mouse, 
-	GLFWscrollfun scroll
-) {
-	glfwSetFramebufferSizeCallback(Win, buffer);
-	glfwSetKeyCallback(Win, key);
-	glfwSetMouseButtonCallback(Win, button);
-	glfwSetCursorPosCallback(Win, mouse);
-	glfwSetScrollCallback(Win, scroll);
-	glfwSetInputMode(Win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+GLfloat GLEnvironment::CountTPS() {
+	return tick.rateCheck / frame.updateFreq;
 }
+GLfloat GLEnvironment::CountFPS() {
+	return frame.count / frame.updateFreq;
+}
+
+void GLEnvironment::UpdateDelta() {
+	timeLast = timeCurrent;
+	QueryPerformanceCounter(&timeCurrent);
+	delta = (timeCurrent.QuadPart - timeLast.QuadPart) / (double)frequency.QuadPart;
+}
+
+void GLEnvironment::InitWin(int _width, int _height, const char* _name) {
+	aspect = _width / _height;
+	lastX = _width / 2.;
+	lastY = _height / 2.;
+
+	win = glfwCreateWindow(_width, _height, _name, nullptr, nullptr);
+	glfwSetWindowPos(win, 550, 50);
+	if (!win) throw new Error("GLFW window is not initialized!\n");
+	glfwMakeContextCurrent(win);
+}
+
+void GLEnvironment::CallbackFramebufferSize(GLFWframebuffersizefun _func) {
+	glfwSetFramebufferSizeCallback(win, _func);
+}
+void GLEnvironment::CallbackKey(GLFWkeyfun _func) {
+	glfwSetKeyCallback(win, _func);
+}
+void GLEnvironment::CallbackMouseButton(GLFWmousebuttonfun _func) {
+	glfwSetMouseButtonCallback(win, _func);
+}
+void GLEnvironment::CallbackCursorPos(GLFWcursorposfun _func) {
+	glfwSetCursorPosCallback(win, _func);
+}
+void GLEnvironment::CallbackScroll(GLFWscrollfun _func) {
+	glfwSetScrollCallback(win, _func);
+}
+
+void GLEnvironment::SetInputMode() {	
+	glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+
 void GLEnvironment::InitGLAD() {
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		throw new Error("Failed to initialize GLAD\n");
@@ -54,23 +70,49 @@ void GLEnvironment::ApplyTests() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
-
-float GLEnvironment::MouseX(double xpos) {
-	float xoffset = xpos - LastX;
-	LastX = xpos;
-	return xoffset;
-}
-float GLEnvironment::MouseY(double ypos) {
-	float yoffset = LastY - ypos;  // Reversed since y-coordinates go from bottom to left
-	LastY = ypos;
-	return yoffset;
-}
-
-float GLEnvironment::UpdateDelta() {
-	TimeLast = TimeCurrent;
-	QueryPerformanceCounter(&TimeCurrent);
-	return (TimeCurrent.QuadPart - TimeLast.QuadPart) / (double)Frequency.QuadPart;
-}
 void GLEnvironment::Swap() { 
-	glfwSwapBuffers(Win);
+	glfwSwapBuffers(win);
 }
+void GLEnvironment::Loop(
+	std::function<void()> __Update, 
+	void __Draw(glm::vec3, glm::mat4, GLfloat, bool),
+	glm::vec3 position, glm::mat4 view, 
+	void __ConsoleInfo()) {
+	while (!glfwWindowShouldClose(win)) {
+		tick.ResetCount();
+
+		while (tick.UpdatesNotTooFast()) {
+			glfwPollEvents();
+			UpdateDelta();
+			__Update();
+			tick.MakeStep(delta);
+		}
+
+		//_manager.Draw(cam.position, cam.view, aspect, drawHits);
+		__Draw(position, view, aspect, drawHits);
+		Swap();
+		frame.MakeStep();
+
+		if (frame.TimeToUpdate(tick.time)) {
+			if (__ConsoleInfo) __ConsoleInfo();
+			tick.CheckReset();
+			frame.ResetCount();
+		}
+
+		//interpolation = float( GetTickCount() + tick.skip - tick.last ) / float( tick.skip );
+	}
+
+	glfwTerminate();
+}
+
+GLEnvironment::GLEnvironment() : lastX(0), lastY(0), delta(0.0f), drawHits(false) {
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+	QueryPerformanceFrequency(&frequency);
+	QueryPerformanceCounter(&timeCurrent);
+}
+GLEnvironment::~GLEnvironment() {}

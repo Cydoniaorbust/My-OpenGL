@@ -6,25 +6,33 @@
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Glad/Debug.lib")
-	#include <Glad/Debug/glad.h>
-	
+	#pragma comment (lib, "ModelLib/Debug_x64.lib")
 	#pragma comment (lib, "EnvLib/Debug_x64.lib")
-	#pragma comment (lib, "LoggerLib/Debug_x64.lib")
-	#pragma comment (lib, "ShaderLib/Debug_x64.lib")
-	#pragma comment (lib, "TextureLib/Debug_x64.lib")
 #else
-	#pragma comment (lib, "Glad/Release.lib")
-	#include <Glad/Release/glad.h>
-	
+	#pragma comment (lib, "Glad/Release.lib")	
+	#pragma comment (lib, "ModelLib/Release_x64.lib")
 	#pragma comment (lib, "EnvLib/Release_x64.lib")
-	#pragma comment (lib, "LoggerLib/Release_x64.lib")
-	#pragma comment (lib, "ShaderLib/Release_x64.lib")
-	#pragma comment (lib, "TextureLib/Release_x64.lib")
 #endif
 
-#include <glfw/Win64/glfw3.h>
-
 #include <GLEnvironment.h>
-#include <Logger.h>
-#include <Shader.h>
-#include <Texture.h>
+#include <Model.h>
+
+#include "Manager.h"
+
+class Camera {
+public:
+	glm::vec3 pos;
+	glm::vec3 front;
+	glm::mat4 view;
+
+	Camera() {
+		pos = glm::vec3(0, 10, 0);
+		float a = glm::radians(180.0f);
+		float b = glm::radians(-90.0f);
+		front = normalize(glm::vec3(cos(a) * cos(b), sin(b), sin(a) * cos(b)));
+		view = lookAt(pos, pos + front, normalize(cross(normalize(cross(front, glm::vec3(0, 1, 0))), front)));
+	}
+};
+
+#include <functional>
+#include <math.h>

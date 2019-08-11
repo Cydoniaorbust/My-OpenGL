@@ -1,7 +1,4 @@
-#include "stdafx.h"
 #include "Shader.h"
-
-#include <fstream>
 
 void Shader::Use			(GLuint id) {
 	glUseProgram(id);

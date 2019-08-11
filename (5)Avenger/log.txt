@@ -142,3 +142,495 @@ Wed Jul 17 01:17:15 2019 > <<Log started>>
  > <<Game initiated.>>
 
 Wed Jul 17 01:17:18 2019 > <<Log ended>>
+Wed Jul 17 05:13:43 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 17 05:14:16 2019 > <<Log ended>>
+Mon Jul 22 09:03:36 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 22 09:03:50 2019 > <<Log ended>>
+Mon Jul 22 09:06:46 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 22 09:06:53 2019 > <<Log ended>>
+Mon Jul 22 09:07:09 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 22 09:07:18 2019 > <<Log ended>>
+Mon Jul 22 09:20:52 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 22 09:21:11 2019 > <<Log ended>>
+Tue Jul 23 01:42:04 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 01:42:10 2019 > <<Log ended>>
+Tue Jul 23 01:55:15 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 01:55:32 2019 > <<Log ended>>
+Tue Jul 23 01:57:06 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 01:57:29 2019 > <<Log ended>>
+Tue Jul 23 01:59:56 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 02:01:04 2019 > <<Log ended>>
+Tue Jul 23 02:01:52 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 02:02:04 2019 > <<Log ended>>
+Tue Jul 23 02:02:14 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 02:03:07 2019 > <<Log ended>>
+Tue Jul 23 02:04:27 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 02:04:35 2019 > <<Log ended>>
+Tue Jul 23 04:04:15 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 04:04:26 2019 > <<Log ended>>
+Tue Jul 23 04:21:07 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 04:21:24 2019 > <<Log ended>>
+Tue Jul 23 04:29:23 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 04:29:33 2019 > <<Log ended>>
+Tue Jul 23 04:30:25 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 04:30:38 2019 > <<Log ended>>
+Tue Jul 23 05:19:47 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 05:20:00 2019 > <<Log ended>>
+Tue Jul 23 05:23:13 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 05:23:29 2019 > <<Log ended>>
+Tue Jul 23 07:56:24 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 07:56:59 2019 > <<Log ended>>
+Tue Jul 23 07:57:11 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 07:58:02 2019 > <<Log ended>>
+Tue Jul 23 08:02:20 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:02:33 2019 > <<Log ended>>
+Tue Jul 23 08:04:16 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:04:21 2019 > <<Log ended>>
+Tue Jul 23 08:04:41 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:05:11 2019 > <<Log ended>>
+Tue Jul 23 08:05:39 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:05:59 2019 > <<Log ended>>
+Tue Jul 23 08:11:17 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:11:22 2019 > <<Log ended>>
+Tue Jul 23 08:11:58 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:12:02 2019 > <<Log ended>>
+Tue Jul 23 08:13:04 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:13:26 2019 > <<Log ended>>
+Tue Jul 23 08:13:36 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:13:43 2019 > <<Log ended>>
+Tue Jul 23 08:13:53 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:14:02 2019 > <<Log ended>>
+Tue Jul 23 08:14:51 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:14:55 2019 > <<Log ended>>
+Tue Jul 23 08:15:15 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:15:37 2019 > <<Log ended>>
+Tue Jul 23 08:15:49 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:16:11 2019 > <<Log ended>>
+Tue Jul 23 08:16:20 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:16:38 2019 > <<Log ended>>
+Tue Jul 23 08:16:45 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:17:26 2019 > <<Log ended>>
+Tue Jul 23 08:17:53 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:18:11 2019 > <<Log ended>>
+Tue Jul 23 08:22:36 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:22:43 2019 > <<Log ended>>
+Tue Jul 23 08:23:59 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:24:15 2019 > <<Log ended>>
+Tue Jul 23 08:24:27 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:24:39 2019 > <<Log ended>>
+Tue Jul 23 08:25:27 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:25:45 2019 > <<Log ended>>
+Tue Jul 23 08:26:05 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:26:14 2019 > <<Log ended>>
+Tue Jul 23 08:26:23 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:26:31 2019 > <<Log ended>>
+Tue Jul 23 08:26:41 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:26:50 2019 > <<Log ended>>
+Tue Jul 23 08:44:30 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:44:39 2019 > <<Log ended>>
+Tue Jul 23 08:46:33 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:46:48 2019 > <<Log ended>>
+Tue Jul 23 08:49:57 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:50:10 2019 > <<Log ended>>
+Tue Jul 23 08:50:44 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 08:51:01 2019 > <<Log ended>>
+Tue Jul 23 08:59:56 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 09:00:19 2019 > <<Log ended>>
+Tue Jul 23 09:01:27 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 09:01:36 2019 > <<Log ended>>
+Tue Jul 23 09:23:00 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 09:23:30 2019 > <<Log ended>>
+Tue Jul 23 09:26:10 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 23 09:26:24 2019 > <<Log ended>>
+Wed Jul 24 02:50:27 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 24 02:52:00 2019 > <<Log ended>>
+Wed Jul 24 02:56:36 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 24 02:56:42 2019 > <<Log ended>>
+Wed Jul 24 03:02:08 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 24 03:02:29 2019 > <<Log ended>>
+Wed Jul 24 03:15:07 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 24 03:15:19 2019 > <<Log ended>>
+Wed Jul 24 03:18:08 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 24 03:18:19 2019 > <<Log ended>>
+Wed Jul 24 03:18:38 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 24 03:18:44 2019 > <<Log ended>>
+Wed Jul 24 03:38:09 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 24 03:38:14 2019 > <<Log ended>>
+Wed Jul 24 03:38:35 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 24 03:38:38 2019 > <<Log ended>>
+Wed Jul 24 04:07:13 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 24 04:07:16 2019 > <<Log ended>>
+Wed Jul 24 04:07:30 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Wed Jul 24 04:07:34 2019 > <<Log ended>>
+Sun Jul 28 02:57:58 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 02:58:07 2019 > <<Log ended>>
+Sun Jul 28 10:19:08 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 10:19:41 2019 > <<Log ended>>
+Sun Jul 28 10:20:05 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 10:20:59 2019 > <<Log ended>>
+Sun Jul 28 10:22:28 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 10:22:30 2019 > <<Log ended>>
+Sun Jul 28 10:48:30 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 10:50:40 2019 > <<Log ended>>
+Sun Jul 28 12:48:39 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 12:48:53 2019 > <<Log ended>>
+Sun Jul 28 12:48:57 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 12:50:01 2019 > <<Log ended>>
+Sun Jul 28 13:23:38 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 13:23:57 2019 > <<Log ended>>
+Sun Jul 28 13:24:05 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 13:24:09 2019 > <<Log ended>>
+Sun Jul 28 13:24:18 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 13:24:37 2019 > <<Log ended>>
+Sun Jul 28 13:26:08 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 13:26:23 2019 > <<Log ended>>
+Sun Jul 28 14:47:36 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 14:47:44 2019 > <<Log ended>>
+Sun Jul 28 14:48:00 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 14:49:23 2019 > <<Log ended>>
+Sun Jul 28 14:49:41 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 14:49:48 2019 > <<Log ended>>
+Sun Jul 28 14:50:11 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 14:50:15 2019 > <<Log ended>>
+Sun Jul 28 14:50:27 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 14:50:33 2019 > <<Log ended>>
+Sun Jul 28 14:50:36 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 14:57:40 2019 > <<Log ended>>
+Sun Jul 28 15:08:28 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Jul 28 15:08:35 2019 > <<Log ended>>
+Mon Jul 29 01:36:11 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 01:36:20 2019 > <<Log ended>>
+Mon Jul 29 01:36:55 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 01:37:27 2019 > <<Log ended>>
+Mon Jul 29 02:47:37 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 02:48:31 2019 > <<Log ended>>
+Mon Jul 29 02:52:42 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 02:53:08 2019 > <<Log ended>>
+Mon Jul 29 03:45:39 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 03:45:46 2019 > <<Log ended>>
+Mon Jul 29 04:18:42 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 04:18:48 2019 > <<Log ended>>
+Mon Jul 29 04:19:04 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 04:19:16 2019 > <<Log ended>>
+Mon Jul 29 10:36:21 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 10:36:29 2019 > <<Log ended>>
+Mon Jul 29 11:03:20 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 11:03:31 2019 > <<Log ended>>
+Mon Jul 29 11:04:48 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 11:04:52 2019 > <<Log ended>>
+Mon Jul 29 11:23:21 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Mon Jul 29 11:23:28 2019 > <<Log ended>>
+Tue Jul 30 05:05:27 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 30 05:05:35 2019 > <<Log ended>>
+Tue Jul 30 08:33:11 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 30 08:33:18 2019 > <<Log ended>>
+Tue Jul 30 08:43:02 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 30 08:43:05 2019 > <<Log ended>>
+Tue Jul 30 09:08:55 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 30 09:08:58 2019 > <<Log ended>>
+Tue Jul 30 09:21:25 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 30 09:21:30 2019 > <<Log ended>>
+Tue Jul 30 09:57:02 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 30 09:57:05 2019 > <<Log ended>>
+Tue Jul 30 16:54:17 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Tue Jul 30 16:54:21 2019 > <<Log ended>>
+Thu Aug  1 08:22:50 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  1 08:23:11 2019 > <<Log ended>>
+Sun Aug  4 08:19:04 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Aug  4 08:19:09 2019 > <<Log ended>>
+Sun Aug  4 21:00:03 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Aug  4 21:00:08 2019 > <<Log ended>>
+Sun Aug  4 22:15:50 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Aug  4 22:16:58 2019 > <<Log ended>>
+Sun Aug  4 22:18:32 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Aug  4 22:19:03 2019 > <<Log ended>>
+Sun Aug  4 22:35:52 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Aug  4 22:35:57 2019 > <<Log ended>>
+Sun Aug  4 22:44:09 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Sun Aug  4 22:45:01 2019 > <<Log ended>>
+Thu Aug  8 20:26:19 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 20:26:22 2019 > <<Log ended>>
+Thu Aug  8 20:29:52 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 20:29:57 2019 > <<Log ended>>
+Thu Aug  8 21:00:55 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 21:00:59 2019 > <<Log ended>>
+Thu Aug  8 21:02:19 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 21:02:22 2019 > <<Log ended>>
+Thu Aug  8 21:48:15 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 21:48:18 2019 > <<Log ended>>
+Thu Aug  8 21:49:54 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 21:49:57 2019 > <<Log ended>>
+Thu Aug  8 22:03:27 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 22:03:30 2019 > <<Log ended>>
+Thu Aug  8 22:22:14 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 22:22:20 2019 > <<Log ended>>
+Thu Aug  8 22:40:28 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 22:40:32 2019 > <<Log ended>>
+Thu Aug  8 22:47:33 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 22:47:50 2019 > <<Log ended>>
+Thu Aug  8 22:48:21 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 22:48:32 2019 > <<Log ended>>
+Thu Aug  8 22:48:51 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 22:48:57 2019 > <<Log ended>>
+Thu Aug  8 22:59:18 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Thu Aug  8 22:59:33 2019 > <<Log ended>>
+Fri Aug  9 04:07:37 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Fri Aug  9 04:07:43 2019 > <<Log ended>>
+Fri Aug  9 16:38:11 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Fri Aug  9 16:38:17 2019 > <<Log ended>>
+Fri Aug  9 16:57:17 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Fri Aug  9 16:57:24 2019 > <<Log ended>>
+Fri Aug  9 16:59:53 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Fri Aug  9 16:59:56 2019 > <<Log ended>>
+Fri Aug  9 17:03:53 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Fri Aug  9 17:04:00 2019 > <<Log ended>>
+Fri Aug  9 17:05:10 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Fri Aug  9 17:05:14 2019 > <<Log ended>>
+Fri Aug  9 17:38:08 2019 > <<Log started>>
+ > <<Game initiated.>>
+
+Fri Aug  9 17:38:13 2019 > <<Log ended>>

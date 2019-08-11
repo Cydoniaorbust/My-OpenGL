@@ -87,7 +87,7 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>D:\Google\Include\GL;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Google\Libs;$(LibraryPath)</LibraryPath>
-    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <ReferencePath>$(VC_ReferencesPath_x64);</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -163,12 +163,8 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="World.h" />
     <ClInclude Include="Manager.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
     <ClInclude Include="PhysObject.h" />
     <ClInclude Include="Source.h" />
     <ClInclude Include="Unit.h" />

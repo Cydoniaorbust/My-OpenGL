@@ -32,19 +32,19 @@ public:
 	void Collide() { collision = true; }
 	void UnCollide() { collision = false; }
 
-	void Draw(const vec3& _position, const mat4& _view, GLfloat _aspect) {
+	void Draw(const glm::vec3& _position, const glm::mat4& _view, GLfloat _aspect, bool _draw) {
 		Shader::Use(GetShader());
 
 		Shader::SetVec3(GetShader(), "ViewPos", _position);
-		Shader::SetVec3(GetShader(), "direction", vec3(-0.2f, -1, -0.3f));
+		Shader::SetVec3(GetShader(), "direction", glm::vec3(-0.2f, -1, -0.3f));
 
 		Shader::SetMat4(GetShader(), "view", _view);
-		Shader::SetMat4(GetShader(), "projection", glm::perspective(radians(90.0f), _aspect, 0.1f, 1000.0f));
+		Shader::SetMat4(GetShader(), "projection", glm::perspective(glm::radians(90.0f), _aspect, 0.1f, 1000.0f));
 
 		Shader::SetMat4(GetShader(), "model", GetPosition());
 		GetModel()->Draw(GetShader());
 
-		hitbox.Draw(_view, _aspect, collision);
+		hitbox.Draw(_view, _aspect, collision, _draw);
 	}
 	
 	void Move(Movement _direction, GLfloat _delta = 0.0f, GLfloat _gamma = 0.0f) {

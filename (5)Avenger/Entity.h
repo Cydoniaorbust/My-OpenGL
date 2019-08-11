@@ -1,21 +1,17 @@
 #pragma once
 
-#include "Model.h"
-
-using std::string;
-
 class Entity {
 private:
-	string name = "defName";
+	std::string name = "defName";
 	GLuint shader = 0;
 	Model* model;
 
-	mat4 position;
+	glm::mat4 position;
 
 	float stepMove = 1.0f;
 	float stepRotate = 1.0f;
 public:
-	string GetName() { return name; }
+	std::string GetName() { return name; }
 	void SetName(const char* _name) { name = _name; }
 	
 	GLuint GetShader() { return shader; }
@@ -24,22 +20,22 @@ public:
 	Model* GetModel() { return model; }
 	void SetModel(Model* _model) { model = _model; }
 
-	mat4 GetPosition() { return position; }
+	glm::mat4 GetPosition() { return position; }
 	#pragma region Movements	
-	void MoveX(GLfloat _delta) { position = translate(position, vec3(_delta * stepMove, 0, 0)); }
-	void MoveY(GLfloat _delta) { position = translate(position, vec3(0, _delta * stepMove, 0)); }
-	void MoveZ(GLfloat _delta) { position = translate(position, vec3(0, 0, _delta * stepMove)); }
+	void MoveX(GLfloat _delta) { position = translate(position, glm::vec3(_delta * stepMove, 0, 0)); }
+	void MoveY(GLfloat _delta) { position = translate(position, glm::vec3(0, _delta * stepMove, 0)); }
+	void MoveZ(GLfloat _delta) { position = translate(position, glm::vec3(0, 0, _delta * stepMove)); }
 	void SetPos(GLfloat _x, GLfloat _y) { position[3][0] = _x; position[3][2] = _y; }
 
 	void ScaleAll(GLfloat _delta) {
-		position = scale(position, vec3(_delta));
+		position = glm::scale(position, glm::vec3(_delta));
 		stepMove = 5 / _delta;
 		stepRotate = 100;
 	}
 
-	void RotateX(GLfloat _degrees) { position = rotate(position, radians(_degrees * stepRotate), vec3(1, 0, 0)); }
-	void RotateY(GLfloat _degrees) { position = rotate(position, radians(_degrees * stepRotate), vec3(0, 1, 0)); }
-	void RotateZ(GLfloat _degrees) { position = rotate(position, radians(_degrees * stepRotate), vec3(0, 0, 1)); }
+	void RotateX(GLfloat _degrees) { position = glm::rotate(position, glm::radians(_degrees * stepRotate), glm::vec3(1, 0, 0)); }
+	void RotateY(GLfloat _degrees) { position = glm::rotate(position, glm::radians(_degrees * stepRotate), glm::vec3(0, 1, 0)); }
+	void RotateZ(GLfloat _degrees) { position = glm::rotate(position, glm::radians(_degrees * stepRotate), glm::vec3(0, 0, 1)); }
 	#pragma endregion
 
 	virtual void NameYourself() = 0;
@@ -90,10 +86,10 @@ public:
 		SetShader("D:/Google/Resources/Shaders/5/Back.vert", "D:/Google/Resources/Shaders/5/Back.frag", nullptr);
 		tex.LoadFromFile("D:/Google/Resources/Tex/Back.jpg");
 	}
-	void Draw(const mat4& _view, float _aspect) {
+	void Draw(const glm::mat4& _view, float _aspect) {
 		Shader::Use(GetShader());
 		Shader::SetMat4(GetShader(), "view", _view);
-		Shader::SetMat4(GetShader(), "projection", glm::perspective(radians(90.0f), _aspect, 0.1f, 1000.0f));
+		Shader::SetMat4(GetShader(), "projection", glm::perspective(glm::radians(90.0f), _aspect, 0.1f, 1000.0f));
 		Shader::SetFloat(GetShader(), "time", glfwGetTime() * 0.1f);
 		glActiveTexture(GL_TEXTURE0 + 1);
 		Shader::SetInt(GetShader(), "Texture", 1);
@@ -140,12 +136,12 @@ public:
 
 		radius = _radius;
 	}
-	void Draw(const mat4& _view, float _aspect, bool _collision) {
-		if (DrawHits) {
+	void Draw(const glm::mat4& _view, float _aspect, bool _collision, bool _draw) {
+		if (_draw) {
 			Shader::Use(GetShader());
 
 			Shader::SetMat4(GetShader(), "view", _view);
-			Shader::SetMat4(GetShader(), "projection", glm::perspective(radians(90.0f), _aspect, 0.1f, 1000.0f));
+			Shader::SetMat4(GetShader(), "projection", glm::perspective(glm::radians(90.0f), _aspect, 0.1f, 1000.0f));
 			Shader::SetMat4(GetShader(), "model", GetPosition());
 
 			if (_collision) collisionModel->DrawOther(GetShader());

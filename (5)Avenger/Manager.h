@@ -9,23 +9,36 @@
 
 class Manager {
 private:
-	map<string, Model> models;
-	//map<string, int> shaders;
+	std::map<std::string, Model> models;
+	//std::map<std::string, int> shaders;
 	
 	int activeShots = 0;
 public:
+	std::vector<Bullet> shots;
 	Background backImage;
 	Player hero;
 	Enemy foe;
-	vector<Bullet> shots;
 
-	Model* GetModel(string _name) { return &models[_name]; }
-	void SetModel(string _name, string _path) { models[_name] = Model(_path); }
+	Model* GetModel(std::string _name) { return &models[_name]; }
+	void SetModel(std::string _name, std::string _path) { models[_name] = Model(_path); }
 
 	int CountShots() {
 		activeShots = 0;
 		for (int i = 0; i < shots.size(); i++) if (shots[i].GetState()) activeShots++;
 		return activeShots;
+	}
+	void MoveBullets(GLfloat _delta) {
+		for (int i = 0; i < shots.size(); i++) {
+			if (shots[i].GetState()) {
+				shots[i].Move(FORWARD, _delta * 4);
+				if (Manager::CollisionBetween(shots[i].GetHitbox(), foe.GetHitbox())) {
+					shots[i].Deactivate();
+					foe.Collide();
+				}
+				else foe.UnCollide();
+				if (shots[i].GetHitbox()->OutOfBounds()) shots[i].Deactivate();
+			}
+		}
 	}
 	
 	void SetData() {
@@ -40,17 +53,17 @@ public:
 		backImage.SetBack();
 		hero.SetPlayer(&models["player"], &models["sphere"], &models["sphere_c"]);
 		foe.SetEnemy(0.7, &models["enemy"], &models["box"], &models["box_c"]);
-		shots = vector<Bullet>(100);
+		shots = std::vector<Bullet>(100);
 		for (int i = 0; i < 100; i++) shots[i].SetBullet(&models["bullet"], &models["sphere"], &models["sphere_c"]);
 	}
 
 	static GLfloat Sqr(GLfloat _x) { return _x * _x; }
-	static GLfloat CountDistance(const mat4& _first, const mat4& _second) {
+	static GLfloat CountDistance(const glm::mat4& _first, const glm::mat4& _second) {
 		return sqrt(Sqr(_second[3][0] - _first[3][0]) + Sqr(_second[3][2] - _first[3][2]));
 	}
 	static bool CollisionBetween(Hitbox* _first, Hitbox* _second) {
-		mat4 x = _first->GetPosition();
-		mat4 y = _second->GetPosition();
+		glm::mat4 x = _first->GetPosition();
+		glm::mat4 y = _second->GetPosition();
 		GLfloat DistBetween = _first->GetRadius() + _second->GetRadius();
 
 		if (CountDistance(x, y) < DistBetween) return true;
