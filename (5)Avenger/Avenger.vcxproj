@@ -85,13 +85,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\GameEngine\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\GameEngine;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\GameEngine\Lib;$(LibraryPath)</LibraryPath>
     <ReferencePath>$(VC_ReferencesPath_x64);</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)\GameEngine\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\GameEngine;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)\GameEngine\Lib;$(LibraryPath)</LibraryPath>
     <ReferencePath>$(VC_ReferencesPath_x64);</ReferencePath>
   </PropertyGroup>
