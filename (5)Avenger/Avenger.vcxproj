@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -85,15 +85,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Google\Projects_VS\GameEngine\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Google\Projects_VS\GameEngine\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\GameEngine\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\GameEngine\Lib;$(LibraryPath)</LibraryPath>
     <ReferencePath>$(VC_ReferencesPath_x64);</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\Google\Projects_VS\GameEngine\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Google\Projects_VS\GameEngine\Lib;$(LibraryPath)</LibraryPath>
-    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <IncludePath>$(SolutionDir)\GameEngine\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\GameEngine\Lib;$(LibraryPath)</LibraryPath>
+    <ReferencePath>$(VC_ReferencesPath_x64);</ReferencePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
