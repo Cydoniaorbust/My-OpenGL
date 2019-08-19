@@ -12,10 +12,6 @@
     <Filter Include="Файлы заголовков\Object structure">
       <UniqueIdentifier>{79073916-a123-479b-837a-9ed9b69ff488}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков\Файлы ресурсов">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -35,13 +31,5 @@
     <ClInclude Include="Manager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Source.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="assimp-vc140-mt.dll">
-      <Filter>Файлы заголовков\Файлы ресурсов</Filter>
-    </None>
   </ItemGroup>
 </Project>

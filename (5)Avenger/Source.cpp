@@ -1,4 +1,24 @@
-#include "Source.h"
+#include <Engine.h>
+
+#include "Manager.h"
+
+//class Camera {
+//public:
+//	glm::vec3 pos;
+//	glm::vec3 front;
+//	glm::mat4 view;
+//
+//	Camera() {
+//		pos = glm::vec3(0, 10, 0);
+//		float a = glm::radians(180.0f);
+//		float b = glm::radians(-90.0f);
+//		front = normalize(glm::vec3(cos(a) * cos(b), sin(b), sin(a) * cos(b)));
+//		view = lookAt(pos, pos + front, normalize(cross(normalize(cross(front, glm::vec3(0, 1, 0))), front)));
+//	}
+//};
+
+#include <functional>
+#include <math.h>
 
 GLboolean keys[1024];
 GLEnvironment env;
