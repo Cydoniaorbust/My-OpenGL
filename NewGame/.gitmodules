@@ -1,3 +1,0 @@
-[submodule "deps/CWGE"]
-	path = deps/CWGE
-	url = git://github.com/Cydoniaorbust/CWGE
